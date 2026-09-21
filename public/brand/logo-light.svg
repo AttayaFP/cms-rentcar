@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 80" fill="none">
+  <defs>
+    <linearGradient id="goldGradientLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(10, 8)">
+    <path d="M32 4 L56 16 L56 44 L32 60 L8 44 L8 16 Z" fill="#0B0F19" stroke="url(#goldGradientLight)" stroke-width="2"/>
+    <path d="M22 46 L22 18 L32 34 L32 18 L42 18 L42 46 L32 30 L32 46 Z" fill="url(#goldGradientLight)"/>
+    <path d="M16 12 L32 4 L48 12" stroke="url(#goldGradientLight)" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <text x="85" y="38" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800" letter-spacing="4" fill="#FFFFFF">NABIL</text>
+  <text x="210" y="38" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="300" letter-spacing="4" fill="url(#goldGradientLight)">RENTAL</text>
+  <text x="86" y="55" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="600" letter-spacing="6" fill="#CBD5E1">PADANG • SUMATERA BARAT</text>
+</svg>

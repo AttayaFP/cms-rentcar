@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="ogBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#AA7C11"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#ogBg)"/>
+  <circle cx="1050" cy="150" r="300" fill="#1E293B" fill-opacity="0.25"/>
+  <rect x="80" y="80" width="1040" height="470" rx="24" stroke="#334155" stroke-width="1.5" fill="none"/>
+  
+  <g transform="translate(140, 140)">
+    <path d="M32 4 L56 16 L56 44 L32 60 L8 44 L8 16 Z" fill="#0F172A" stroke="url(#goldText)" stroke-width="2.5"/>
+    <path d="M22 46 L22 18 L32 34 L32 18 L42 18 L42 46 L32 30 L32 46 Z" fill="url(#goldText)"/>
+    <text x="75" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="900" letter-spacing="4" fill="#FFFFFF">NABIL</text>
+    <text x="225" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="300" letter-spacing="4" fill="url(#goldText)">RENTAL</text>
+  </g>
+
+  <text x="140" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" fill="#FFFFFF" letter-spacing="-1">
+    Rental Mobil Padang Terbaik
+  </text>
+  <text x="140" y="335" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="700" fill="url(#goldText)">
+    Lepas Kunci &amp; Antar Jemput Bandara BIM 24 Jam
+  </text>
+  
+  <text x="140" y="410" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="400" fill="#94A3B8">
+    Armada Prima Siap Rute Wisata Bukittinggi, Lembah Harau &amp; Kawasan Mandeh
+  </text>
+
+  <g transform="translate(140, 460)">
+    <rect width="220" height="44" rx="8" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+    <text x="110" y="28" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" letter-spacing="1">UNIT TERAWAT</text>
+  </g>
+  <g transform="translate(380, 460)">
+    <rect width="260" height="44" rx="8" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+    <text x="130" y="28" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" letter-spacing="1">SYARAT MUDAH &amp; AMAN</text>
+  </g>
+  <g transform="translate(660, 460)">
+    <rect width="240" height="44" rx="8" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+    <text x="120" y="28" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#F8FAFC" letter-spacing="1">SUPIR URANG AWAK</text>
+  </g>
+</svg>

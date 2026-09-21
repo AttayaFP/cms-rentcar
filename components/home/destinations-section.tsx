@@ -1,0 +1,142 @@
+import Image from "next/image"
+import { Compass, Clock, MapPin, Car, ArrowUpRight } from "lucide-react"
+
+export function DestinationsSection() {
+  const touristSpots = [
+    {
+      title: "Jam Gadang & Ngarai Sianok",
+      location: "Kota Bukittinggi",
+      image: "/images/main/bukittinggi-jam-gadang.webp",
+      distance: "90 KM dari Padang",
+      duration: "2.5 Jam Perjalanan",
+      roadType: "Jalur aspal pegunungan berliku via Lembah Anai",
+      recommendedCar: "Innova Reborn / Avanza Veloz",
+      description: "Pusat wisata sejarah, kuliner Nasi Kapau, dan keindahan tebing Ngarai Sianok berhawa sejuk di dataran tinggi Minangkabau.",
+      waMessage: "Halo Nabil Rental Padang, saya berencana sewa mobil untuk bepergian ke Bukittinggi. Rekomendasi unit apa yang cocok?",
+    },
+    {
+      title: "Kawasan Wisata Bahari Mandeh",
+      location: "Pesisir Selatan",
+      image: "/images/main/kawasan-mandeh.webp",
+      distance: "55 KM dari Padang",
+      duration: "1.5 Jam Perjalanan",
+      roadType: "Jalan baru aspal mulus berkelok di tepi teluk laut",
+      recommendedCar: "Innova Zenix / Honda Brio",
+      description: "Gugusan pulau eksotis yang dikenal sebagai Raja Ampat Sumatera Barat. Spot favorit untuk wisata bahari, snorkeling, dan santai bersama keluarga.",
+      waMessage: "Halo Nabil Rental Padang, saya butuh mobil rental untuk liburan ke Kawasan Wisata Mandeh. Unit apa yang tersedia?",
+    },
+    {
+      title: "Lembah Harau & Jembatan Kelok 9",
+      location: "Kabupaten Lima Puluh Kota",
+      image: "/images/main/lembah-harau-kelok9.webp",
+      distance: "135 KM dari Padang",
+      duration: "3.5 Jam Perjalanan",
+      roadType: "Jalan lintas provinsi lebar dan jalur tanjakan layang",
+      recommendedCar: "Toyota HiAce / Fortuner GR",
+      description: "Tebing granit vertikal setinggi ratusan meter yang megah dihiasi air terjun alami dan jembatan layang Kelok 9 yang spektakuler.",
+      waMessage: "Halo Nabil Rental Padang, saya ingin konsultasi sewa mobil untuk rute Payakumbuh dan Lembah Harau.",
+    },
+    {
+      title: "Bandara Internasional Minangkabau (BIM)",
+      location: "Padang Pariaman",
+      image: "/images/main/bim-airport.webp",
+      distance: "25 KM dari Pusat Kota",
+      duration: "35 Menit Perjalanan",
+      roadType: "Jalur bypass dua jalur bebas hambatan",
+      recommendedCar: "Semua Tipe Kendaraan",
+      description: "Pintu gerbang udara utama Sumatera Barat dengan arsitektur atap gonjong khas Minang. Nabil Rental melayani serah terima unit 24 jam langsung di bandara.",
+      waMessage: "Halo Nabil Rental Padang, saya butuh sewa mobil dengan serah terima di Bandara BIM.",
+    },
+  ]
+
+  return (
+    <section id="wisata" className="relative scroll-mt-20 bg-slate-50 py-24 transition-colors dark:bg-[#070A10]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-amber-500/10 px-4 py-1.5 shadow-sm dark:bg-[#0F172A]">
+            <Compass className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-[#F1F5F9]">
+              Panduan Wisata Minangkabau
+            </span>
+          </div>
+
+          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
+            Informasi Destinasi Wisata Populer Sumatera Barat
+          </h2>
+
+          <p className="mt-3 max-w-2xl text-sm font-medium text-slate-600 sm:text-base dark:text-[#94A3B8]">
+            Panduan jarak tempuh, karakter jalan, dan rekomendasi mobil yang ideal bagi Anda yang merencanakan perjalanan di Ranah Minang.
+          </p>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {touristSpots.map((spot, index) => (
+            <article
+              key={index}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-[#D4AF37] hover:shadow-xl dark:border-white/10 dark:bg-[#0B0F17] dark:hover:border-[#D4AF37]/50"
+            >
+              <div className="relative aspect-[16/11] w-full overflow-hidden bg-slate-100 dark:bg-[#070A10]">
+                <Image
+                  src={spot.image}
+                  alt={spot.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                <div className="absolute bottom-3 left-3">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#FDE68A] drop-shadow-md">
+                    {spot.location}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-1 flex-col p-5">
+                <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-[#B45309] dark:text-white dark:group-hover:text-[#FDE68A]">
+                  {spot.title}
+                </h3>
+
+                <div className="mt-3 flex flex-col gap-1.5 border-y border-slate-100 py-2.5 text-xs text-slate-600 dark:border-white/10 dark:text-[#94A3B8]">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="size-3.5 text-[#B45309] dark:text-[#D4AF37]" />
+                    <span className="font-medium">{spot.distance}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="size-3.5 text-[#B45309] dark:text-[#D4AF37]" />
+                    <span className="font-medium">{spot.duration}</span>
+                  </div>
+                </div>
+
+                <p className="mt-3 text-xs font-medium leading-relaxed text-slate-600 dark:text-[#94A3B8]">
+                  {spot.description}
+                </p>
+
+                <div className="mt-3 rounded-xl bg-slate-50 p-2.5 dark:bg-white/5">
+                  <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300">
+                    <Car className="size-3.5 text-[#B45309] dark:text-[#D4AF37]" />
+                    <span>Mobil Rekomendasi:</span>
+                  </div>
+                  <p className="mt-0.5 text-xs font-bold text-[#B45309] dark:text-[#FDE68A]">
+                    {spot.recommendedCar}
+                  </p>
+                </div>
+
+                <div className="mt-auto pt-5">
+                  <a
+                    href={`https://wa.me/6282279690769?text=${encodeURIComponent(spot.waMessage)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs font-bold text-slate-800 transition-colors hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 hover:text-[#92400E] dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:text-[#FDE68A]"
+                  >
+                    <span>Konsultasi Sewa Mobil</span>
+                    <ArrowUpRight className="size-4" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
