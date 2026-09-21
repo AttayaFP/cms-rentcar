@@ -71,14 +71,24 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Edit Mobil (`/admin/cars/[id]/edit`): Form pembaruan data mobil dan penambahan foto dokumentasi baru.
 - Server Actions (`actions/cars.ts`): Operasi CRUD aman menggunakan `createAdminClient` (service role).
 
+### C. Basis Data Armada Supabase Terkini (6 Unit Live & Representatif)
+1. Toyota Innova Reborn 2.4 G Diesel (Family MPV, Otomatis, Solar Dex, 7 Seater, Rp 450rb / Rp 650rb)
+2. Toyota Avanza Veloz 1.5 Q CVT (Family MPV, Otomatis, Bensin, 7 Seater, Rp 350rb / Rp 550rb)
+3. Toyota All New Kijang Innova Zenix 2.0 V CVT (Family MPV, Otomatis, Bensin, 7 Seater, Rp 600rb / Rp 800rb)
+4. Toyota Fortuner 2.8 GR Sport 4x2 (Executive SUV, Otomatis, Solar Dex, 7 Seater, Rp 850rb / Rp 1.1jt)
+5. Toyota HiAce Premio Luxury 2.8 (Minibus Wisata, Manual, Solar Dex, 12 Seater, Khusus Driver: Rp 1.2jt)
+6. All New Honda Brio RS 1.2 CVT (City Car, Otomatis, Bensin, 5 Seater, Rp 300rb / Rp 500rb)
+Semua unit di atas telah dilengkapi 2 foto resolusi tinggi (eksterior & interior kabin), badges fasilitas, dan terhubung ke dynamic WhatsApp CTA.
+
 ## 7. Rencana Tugas Sesi Selanjutnya (Roadmap Besok)
 
 1. Autentikasi Pengelola Admin:
-   - Membuat halaman login admin (`/admin/login`) terintegrasi dengan Supabase Auth atau PIN / Sandi pengelola agar rute `/admin` terlindungi middleware.
-2. Integrasi Data Real Supabase:
-   - Memastikan seluruh unit mobil real milik Nabil Rental Mobil Padang diinput via form `/admin/cars/new` lengkap dengan harga resmi dan foto asli unit.
-   - Fitur upload foto multi-gambar terhubung langsung ke bucket Supabase Storage `nabil-rent/cars/`.
-3. Pengaturan Kontak & Bisnis Dinamis:
-   - Modul pengaturan nomor WhatsApp, rekening pembayaran, dan alamat langsung dari admin CMS tanpa ubah kodingan.
-4. Verifikasi Akhir & Deploy:
-   - Tes penuh di Vercel dan optimasi SEO Google Search Console / sitemap.xml.
+   - Membuat halaman login admin (`/admin/login`) terintegrasi dengan Supabase Auth atau Session aman agar rute `/admin` terlindungi middleware Next.js.
+   - Redirect otomatis dari `/admin/*` ke `/admin/login` jika belum terautentikasi.
+2. Pengaturan Kontak & Bisnis Dinamis (`/admin/settings`):
+   - Modul pengaturan nomor WhatsApp, rekening pembayaran, dan alamat kantor langsung dari panel admin tanpa ubah kodingan.
+3. Input Armada Real & Manajemen Gambar Supabase Storage:
+   - Pengelola memasukkan foto asli unit operasional dan tarif resmi melalui form `/admin/cars/new` atau `/admin/cars/[id]/edit`.
+4. Optimasi SEO & Produksi:
+   - Metadata dinamis, `sitemap.xml`, `robots.txt`, dan verifikasi build sebelum deployment ke Vercel.
+
