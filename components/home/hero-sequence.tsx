@@ -154,7 +154,7 @@ export function HeroSequence() {
         >
           <div className="inline-flex items-center rounded-full border border-[#D4AF37]/50 bg-black/75 px-3.5 py-1 sm:px-5 sm:py-1.5 shadow-2xl backdrop-blur-md">
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#FDE68A] sm:text-xs sm:tracking-[0.25em]">
-              Nabil Rental Padang
+              Nabil Rental Mobil Padang
             </span>
           </div>
 

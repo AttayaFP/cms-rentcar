@@ -169,7 +169,7 @@ export function FleetSection({ initialCars }: FleetSectionProps) {
           </div>
 
           <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
-            Katalog Armada Nabil Rental Padang
+            Katalog Armada Nabil Rental Mobil Padang
           </h2>
 
           <p className="mt-3 max-w-2xl text-sm font-medium text-slate-600 sm:text-base dark:text-[#94A3B8]">

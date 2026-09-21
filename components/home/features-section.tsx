@@ -32,7 +32,7 @@ export function FeaturesSection() {
             </div>
 
             <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
-              Mengapa Memilih Sewa Mobil di Nabil Rental Padang?
+              Mengapa Memilih Sewa Mobil di Nabil Rental Mobil Padang?
             </h2>
 
             <p className="mt-4 text-sm font-medium leading-relaxed text-slate-600 sm:text-base dark:text-[#94A3B8]">

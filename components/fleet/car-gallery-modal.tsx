@@ -156,7 +156,7 @@ export function CarGalleryModal({
           >
             <Image
               src="/images/main/whatsapp.png"
-              alt="WhatsApp Nabil Rental Padang"
+              alt="WhatsApp Nabil Rental Mobil Padang"
               width={20}
               height={20}
               className="size-5 shrink-0 object-contain drop-shadow-sm"

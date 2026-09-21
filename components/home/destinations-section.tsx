@@ -13,7 +13,7 @@ export function DestinationsSection() {
       roadType: "Jalur aspal pegunungan berliku via Lembah Anai",
       recommendedCar: "Innova Reborn / Avanza Veloz",
       description: "Pusat wisata sejarah, kuliner Nasi Kapau, dan keindahan tebing Ngarai Sianok berhawa sejuk di dataran tinggi Minangkabau.",
-      waMessage: "Halo Nabil Rental Padang, saya berencana sewa mobil untuk bepergian ke Bukittinggi. Rekomendasi unit apa yang cocok?",
+      waMessage: "Halo Nabil Rental Mobil Padang, saya berencana sewa mobil untuk bepergian ke Bukittinggi. Rekomendasi unit apa yang cocok?",
     },
     {
       title: "Kawasan Wisata Bahari Mandeh",
@@ -25,7 +25,7 @@ export function DestinationsSection() {
       roadType: "Jalan baru aspal mulus berkelok di tepi teluk laut",
       recommendedCar: "Innova Zenix / Honda Brio",
       description: "Gugusan pulau eksotis yang dikenal sebagai Raja Ampat Sumatera Barat. Spot favorit untuk wisata bahari, snorkeling, dan santai bersama keluarga.",
-      waMessage: "Halo Nabil Rental Padang, saya butuh mobil rental untuk liburan ke Kawasan Wisata Mandeh. Unit apa yang tersedia?",
+      waMessage: "Halo Nabil Rental Mobil Padang, saya butuh mobil rental untuk liburan ke Kawasan Wisata Mandeh. Unit apa yang tersedia?",
     },
     {
       title: "Lembah Harau & Jembatan Kelok 9",
@@ -37,7 +37,7 @@ export function DestinationsSection() {
       roadType: "Jalan lintas provinsi lebar dan jalur tanjakan layang",
       recommendedCar: "Toyota HiAce / Fortuner GR",
       description: "Tebing granit vertikal setinggi ratusan meter yang megah dihiasi air terjun alami dan jembatan layang Kelok 9 yang spektakuler.",
-      waMessage: "Halo Nabil Rental Padang, saya ingin konsultasi sewa mobil untuk rute Payakumbuh dan Lembah Harau.",
+      waMessage: "Halo Nabil Rental Mobil Padang, saya ingin konsultasi sewa mobil untuk rute Payakumbuh dan Lembah Harau.",
     },
     {
       title: "Bandara Internasional Minangkabau (BIM)",
@@ -49,7 +49,7 @@ export function DestinationsSection() {
       roadType: "Jalur bypass dua jalur bebas hambatan",
       recommendedCar: "Semua Tipe Kendaraan",
       description: "Pintu gerbang udara utama Sumatera Barat dengan arsitektur atap gonjong khas Minang. Nabil Rental melayani serah terima unit 24 jam langsung di bandara.",
-      waMessage: "Halo Nabil Rental Padang, saya butuh sewa mobil dengan serah terima di Bandara BIM.",
+      waMessage: "Halo Nabil Rental Mobil Padang, saya butuh sewa mobil dengan serah terima di Bandara BIM.",
     },
   ]
 

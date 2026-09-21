@@ -13,8 +13,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://nabilrentcarpadang.com"),
   title: {
-    default: "Nabil Rental Padang: Sewa Mobil Lepas Kunci & Antar Jemput Bandara BIM",
-    template: "%s | Nabil Rental Padang",
+    default: "Nabil Rental Mobil Padang: Sewa Mobil Lepas Kunci & Antar Jemput Bandara BIM",
+    template: "%s | Nabil Rental Mobil Padang",
   },
   description:
     "Jasa rental mobil Padang terpercaya. Melayani sewa mobil lepas kunci dan dengan supir untuk rute Padang, Bukittinggi, Mandeh, Harau. Unit terawat siap tanjakan, serah terima 24 jam di Bandara BIM.",
@@ -27,28 +27,28 @@ export const metadata: Metadata = {
     "sewa innova reborn padang",
     "rental hiace padang",
     "paket wisata sumatera barat",
-    "nabil rental padang",
+    "Nabil Rental Mobil Padang",
   ],
-  authors: [{ name: "Nabil Rental Padang" }],
-  creator: "Nabil Rental Padang",
-  publisher: "Nabil Rental Padang",
+  authors: [{ name: "Nabil Rental Mobil Padang" }],
+  creator: "Nabil Rental Mobil Padang",
+  publisher: "Nabil Rental Mobil Padang",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: "Nabil Rental Padang: Sewa Mobil Lepas Kunci & Bandara BIM",
+    title: "Nabil Rental Mobil Padang: Sewa Mobil Lepas Kunci & Bandara BIM",
     description:
       "Rental mobil nomor 1 di Padang, Sumatera Barat. Unit bersih terawat, siap tanjakan ekstrem Sitinjau Lauik dan Kelok 44. Antar jemput Bandara BIM 24 jam.",
     url: "https://nabilrentcarpadang.com",
-    siteName: "Nabil Rental Padang",
+    siteName: "Nabil Rental Mobil Padang",
     images: [
       {
         url: "/images/main/og-share.svg",
         width: 1200,
         height: 630,
-        alt: "Nabil Rental Padang: Sewa Mobil Lepas Kunci & Antar Jemput Bandara BIM",
+        alt: "Nabil Rental Mobil Padang: Sewa Mobil Lepas Kunci & Antar Jemput Bandara BIM",
       },
     ],
     locale: "id_ID",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nabil Rental Padang: Sewa Mobil Lepas Kunci & Bandara BIM",
+    title: "Nabil Rental Mobil Padang: Sewa Mobil Lepas Kunci & Bandara BIM",
     description:
       "Rental mobil Padang terpercaya. Antar jemput Bandara BIM 24 jam, armada siap tanjakan Sitinjau Lauik dan rute Bukittinggi.",
     images: ["/images/main/og-share.svg"],
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "AutoRental",
-  "name": "Nabil Rental Padang",
+  "name": "Nabil Rental Mobil Padang",
   "image": "https://nabilrentcarpadang.com/images/main/og-share.svg",
   "telephone": "+6282287140724",
   "url": "https://nabilrentcarpadang.com",

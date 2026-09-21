@@ -10,7 +10,7 @@ export function Footer() {
             <div className="relative h-12 w-48">
               <Image
                 src="/brand/logo-light.svg"
-                alt="Nabil Rental Padang"
+                alt="Nabil Rental Mobil Padang"
                 fill
                 className="object-contain object-left"
               />
@@ -85,7 +85,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-8 text-xs text-slate-400 sm:flex-row dark:border-white/10 dark:text-[#64748B]">
-          <p>&copy; {new Date().getFullYear()} Nabil Rental Padang. Seluruh hak cipta dilindungi.</p>
+          <p>&copy; {new Date().getFullYear()} Nabil Rental Mobil Padang. Seluruh hak cipta dilindungi.</p>
           <p>Rental Mobil Nomor 1 di Sumatera Barat</p>
         </div>
       </div>

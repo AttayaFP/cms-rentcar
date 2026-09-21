@@ -61,7 +61,7 @@ export function Navbar() {
           <div className="relative h-10 w-44 sm:h-12 sm:w-52">
             <Image
               src={isScrolled && !isDark ? "/brand/logo-dark.svg" : "/brand/logo-light.svg"}
-              alt="Nabil Rental Padang"
+              alt="Nabil Rental Mobil Padang"
               fill
               priority
               className="object-contain object-left"

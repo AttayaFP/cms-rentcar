@@ -6,7 +6,7 @@ export function generateWhatsAppBookingUrl(
 ): string {
   const sanitizedNumber = targetNumber.replace(/\D/g, "")
   const messageLines = [
-    "Halo Nabil Rental Padang,",
+    "Halo Nabil Rental Mobil Padang,",
     "Saya ingin melakukan reservasi kendaraan:",
     "",
     `• Unit Mobil: ${payload.carName}`,
@@ -30,7 +30,7 @@ export function generateWhatsAppBookingUrl(
 }
 
 export function generateDirectWhatsAppUrl(
-  message: string = "Halo Nabil Rental Padang, saya ingin konsultasi sewa mobil di Padang.",
+  message: string = "Halo Nabil Rental Mobil Padang, saya ingin konsultasi sewa mobil di Padang.",
   targetNumber: string = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6282287140724"
 ): string {
   const sanitizedNumber = targetNumber.replace(/\D/g, "")

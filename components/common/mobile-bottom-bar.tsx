@@ -11,7 +11,7 @@ export function MobileBottomBar() {
       <div className="mx-auto flex max-w-lg items-center gap-2.5">
         <a
           href="tel:082287140724"
-          aria-label="Telepon Nabil Rental Padang"
+          aria-label="Telepon Nabil Rental Mobil Padang"
           className="flex h-12 w-14 shrink-0 items-center justify-center rounded-xl border border-stone-300 bg-stone-100 text-slate-900 transition-colors active:scale-95 dark:border-white/15 dark:bg-white/5 dark:text-white"
         >
           <Phone className="size-5 text-[#C5A059]" />

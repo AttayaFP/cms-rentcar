@@ -119,7 +119,7 @@ export function LocationSection() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Peta Lokasi SEWA TOYOTA HIACE PADANG Nabil Rental Padang"
+              title="Peta Lokasi SEWA TOYOTA HIACE PADANG Nabil Rental Mobil Padang"
             />
           </div>
         </div>
