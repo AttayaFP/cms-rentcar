@@ -2,7 +2,7 @@ import { BookingFormPayload } from "@/types/database"
 
 export function generateWhatsAppBookingUrl(
   payload: BookingFormPayload,
-  targetNumber: string = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6282279690769"
+  targetNumber: string = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6282287140724"
 ): string {
   const sanitizedNumber = targetNumber.replace(/\D/g, "")
   const messageLines = [
@@ -31,7 +31,7 @@ export function generateWhatsAppBookingUrl(
 
 export function generateDirectWhatsAppUrl(
   message: string = "Halo Nabil Rental Padang, saya ingin konsultasi sewa mobil di Padang.",
-  targetNumber: string = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6282279690769"
+  targetNumber: string = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6282287140724"
 ): string {
   const sanitizedNumber = targetNumber.replace(/\D/g, "")
   return `https://wa.me/${sanitizedNumber}?text=${encodeURIComponent(message)}`

@@ -79,7 +79,7 @@ const jsonLd = {
   "@type": "AutoRental",
   "name": "Nabil Rental Padang",
   "image": "https://nabilrentcarpadang.com/images/main/og-share.svg",
-  "telephone": "+6282279690769",
+  "telephone": "+6282287140724",
   "url": "https://nabilrentcarpadang.com",
   "priceRange": "Rp 300.000 - Rp 1.500.000",
   "address": {
@@ -127,14 +127,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="id" className={`${plusJakartaSans.variable} scroll-smooth`} suppressHydrationWarning>
+    <html lang="id" className={plusJakartaSans.variable} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-white font-sans text-slate-900 antialiased selection:bg-[#D4AF37] selection:text-[#0F172A] dark:bg-[#070A10] dark:text-[#F8FAFC]">
+      <body className="min-h-screen bg-[#FBFBF9] font-sans text-slate-900 antialiased selection:bg-[#D4AF37] selection:text-[#0F172A] dark:bg-[#070A10] dark:text-[#F8FAFC]">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

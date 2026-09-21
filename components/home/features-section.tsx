@@ -20,13 +20,13 @@ export function FeaturesSection() {
   ]
 
   return (
-    <section id="keunggulan" className="relative scroll-mt-20 border-t border-slate-200 bg-white py-24 transition-colors dark:border-white/10 dark:bg-[#05080E]">
+    <section id="keunggulan" className="relative scroll-mt-20 border-t border-stone-200/80 bg-[#FBFBF9] py-24 transition-colors dark:border-white/10 dark:bg-[#05080E]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
           <div className="lg:col-span-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-amber-500/10 px-4 py-1.5 shadow-sm dark:bg-[#0F172A]">
-              <Award className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-[#F1F5F9]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#C5A059]/40 bg-[#C5A059]/10 px-4 py-1.5 shadow-sm">
+              <Award className="size-4 text-[#92400E] dark:text-[#FDE68A]" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[#92400E] dark:text-[#FDE68A]">
                 Standar Layanan Nabil Rental
               </span>
             </div>
@@ -41,7 +41,7 @@ export function FeaturesSection() {
 
             <div className="mt-8 flex flex-col gap-5">
               <div className="flex items-start gap-4">
-                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-[#B45309] shadow-sm dark:border-[#D4AF37]/30 dark:bg-[#0F172A] dark:text-[#D4AF37]">
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-stone-200/80 bg-white text-[#92400E] shadow-sm dark:border-[#C5A059]/30 dark:bg-[#0F172A] dark:text-[#C5A059]">
                   <Mountain className="size-6" />
                 </div>
                 <div>
@@ -55,7 +55,7 @@ export function FeaturesSection() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-[#B45309] shadow-sm dark:border-[#D4AF37]/30 dark:bg-[#0F172A] dark:text-[#D4AF37]">
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-stone-200/80 bg-white text-[#92400E] shadow-sm dark:border-[#C5A059]/30 dark:bg-[#0F172A] dark:text-[#C5A059]">
                   <Clock className="size-6" />
                 </div>
                 <div>
@@ -69,7 +69,7 @@ export function FeaturesSection() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-[#B45309] shadow-sm dark:border-[#D4AF37]/30 dark:bg-[#0F172A] dark:text-[#D4AF37]">
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-stone-200/80 bg-white text-[#92400E] shadow-sm dark:border-[#C5A059]/30 dark:bg-[#0F172A] dark:text-[#C5A059]">
                   <ShieldCheck className="size-6" />
                 </div>
                 <div>
@@ -85,9 +85,9 @@ export function FeaturesSection() {
           </div>
 
           <div id="syarat" className="scroll-mt-24 lg:col-span-6">
-            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-xl dark:border-white/10 dark:bg-[#0B0F17] sm:p-8">
-              <div className="flex items-center gap-4 border-b border-slate-200 pb-6 dark:border-white/10">
-                <div className="size-14 shrink-0 overflow-hidden rounded-2xl bg-white shadow-sm dark:bg-[#0F172A]">
+            <div className="overflow-hidden rounded-3xl border border-stone-200/80 bg-white p-6 shadow-xl dark:border-white/10 dark:bg-[#0B0F17] sm:p-8">
+              <div className="flex items-center gap-4 border-b border-stone-200/80 pb-6 dark:border-white/10">
+                <div className="size-14 shrink-0 overflow-hidden rounded-2xl bg-stone-50 shadow-sm dark:bg-[#0F172A]">
                   <DotLottieReact
                     src="/lottie/Safe done.lottie"
                     loop
@@ -95,7 +95,7 @@ export function FeaturesSection() {
                   />
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#B45309] dark:text-[#D4AF37]">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#92400E] dark:text-[#FDE68A]">
                     Verifikasi Resmi &amp; Cepat
                   </span>
                   <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">
@@ -106,7 +106,7 @@ export function FeaturesSection() {
 
               <div className="mt-6">
                 <h4 className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-[#FDE68A]">
-                  <FileText className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
+                  <FileText className="size-4 text-[#92400E] dark:text-[#C5A059]" />
                   <span>Syarat Sewa Lepas Kunci (Self-Drive)</span>
                 </h4>
                 <ul className="mt-3 flex flex-col gap-2.5">
@@ -119,15 +119,15 @@ export function FeaturesSection() {
                 </ul>
               </div>
 
-              <div className="mt-8 border-t border-slate-200 pt-6 dark:border-white/10">
+              <div className="mt-8 border-t border-stone-200/80 pt-6 dark:border-white/10">
                 <h4 className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-[#FDE68A]">
-                  <Award className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
+                  <Award className="size-4 text-[#92400E] dark:text-[#C5A059]" />
                   <span>Sewa Mobil Dengan Supir</span>
                 </h4>
                 <ul className="mt-3 flex flex-col gap-2.5">
                   {requirementsWithDriver.map((item, index) => (
                     <li key={index} className="flex items-start gap-2.5 text-xs font-medium text-slate-700 sm:text-sm dark:text-[#CBD5E1]">
-                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#B45309] dark:text-[#D4AF37]" />
+                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#92400E] dark:text-[#C5A059]" />
                       <span>{item}</span>
                     </li>
                   ))}

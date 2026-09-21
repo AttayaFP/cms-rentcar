@@ -3,7 +3,7 @@
 import { DotLottieReact } from "@lottiefiles/dotlottie-react"
 
 export function FloatingWhatsApp() {
-  const whatsappUrl = "https://wa.me/6282279690769?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20konsultasi%20sewa%20mobil."
+  const whatsappUrl = "https://wa.me/6282287140724?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20konsultasi%20sewa%20mobil."
 
   return (
     <aside aria-label="WhatsApp Concierge" className="fixed bottom-6 right-5 z-40">

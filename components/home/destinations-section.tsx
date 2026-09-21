@@ -50,12 +50,12 @@ export function DestinationsSection() {
   ]
 
   return (
-    <section id="wisata" className="relative scroll-mt-20 bg-slate-50 py-24 transition-colors dark:bg-[#070A10]">
+    <section id="wisata" className="relative scroll-mt-20 bg-[#F5F4F0] py-24 transition-colors dark:bg-[#070A10]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-amber-500/10 px-4 py-1.5 shadow-sm dark:bg-[#0F172A]">
-            <Compass className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-[#F1F5F9]">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#C5A059]/40 bg-[#C5A059]/10 px-4 py-1.5 shadow-sm">
+            <Compass className="size-4 text-[#92400E] dark:text-[#FDE68A]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#92400E] dark:text-[#FDE68A]">
               Panduan Wisata Minangkabau
             </span>
           </div>
@@ -73,9 +73,9 @@ export function DestinationsSection() {
           {touristSpots.map((spot, index) => (
             <article
               key={index}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-[#D4AF37] hover:shadow-xl dark:border-white/10 dark:bg-[#0B0F17] dark:hover:border-[#D4AF37]/50"
+              className="group flex flex-col overflow-hidden rounded-3xl border border-stone-200/80 bg-white shadow-sm transition-all duration-300 hover:border-[#C5A059]/60 hover:shadow-xl dark:border-white/10 dark:bg-[#0B0F17] dark:hover:border-[#C5A059]/50"
             >
-              <div className="relative aspect-[16/11] w-full overflow-hidden bg-slate-100 dark:bg-[#070A10]">
+              <div className="relative aspect-[16/11] w-full overflow-hidden bg-stone-100 dark:bg-[#070A10]">
                 <Image
                   src={spot.image}
                   alt={spot.title}
@@ -92,17 +92,17 @@ export function DestinationsSection() {
               </div>
 
               <div className="flex flex-1 flex-col p-5">
-                <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-[#B45309] dark:text-white dark:group-hover:text-[#FDE68A]">
+                <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-[#92400E] dark:text-white dark:group-hover:text-[#FDE68A]">
                   {spot.title}
                 </h3>
 
-                <div className="mt-3 flex flex-col gap-1.5 border-y border-slate-100 py-2.5 text-xs text-slate-600 dark:border-white/10 dark:text-[#94A3B8]">
+                <div className="mt-3 flex flex-col gap-1.5 border-y border-stone-200/80 py-2.5 text-xs text-slate-600 dark:border-white/10 dark:text-[#94A3B8]">
                   <div className="flex items-center gap-1.5">
-                    <MapPin className="size-3.5 text-[#B45309] dark:text-[#D4AF37]" />
+                    <MapPin className="size-3.5 text-[#92400E] dark:text-[#C5A059]" />
                     <span className="font-medium">{spot.distance}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Clock className="size-3.5 text-[#B45309] dark:text-[#D4AF37]" />
+                    <Clock className="size-3.5 text-[#92400E] dark:text-[#C5A059]" />
                     <span className="font-medium">{spot.duration}</span>
                   </div>
                 </div>
@@ -111,22 +111,22 @@ export function DestinationsSection() {
                   {spot.description}
                 </p>
 
-                <div className="mt-3 rounded-xl bg-slate-50 p-2.5 dark:bg-white/5">
+                <div className="mt-3 rounded-2xl bg-stone-50 p-3 dark:bg-white/5">
                   <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300">
-                    <Car className="size-3.5 text-[#B45309] dark:text-[#D4AF37]" />
+                    <Car className="size-3.5 text-[#92400E] dark:text-[#C5A059]" />
                     <span>Mobil Rekomendasi:</span>
                   </div>
-                  <p className="mt-0.5 text-xs font-bold text-[#B45309] dark:text-[#FDE68A]">
+                  <p className="mt-0.5 text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">
                     {spot.recommendedCar}
                   </p>
                 </div>
 
                 <div className="mt-auto pt-5">
                   <a
-                    href={`https://wa.me/6282279690769?text=${encodeURIComponent(spot.waMessage)}`}
+                    href={`https://wa.me/6282287140724?text=${encodeURIComponent(spot.waMessage)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs font-bold text-slate-800 transition-colors hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 hover:text-[#92400E] dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:text-[#FDE68A]"
+                    className="flex items-center justify-between rounded-xl border border-stone-200/80 bg-stone-50 px-3.5 py-2.5 text-xs font-bold text-slate-800 transition-colors hover:border-[#C5A059] hover:bg-[#C5A059]/10 hover:text-[#92400E] dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:text-[#FDE68A]"
                   >
                     <span>Konsultasi Sewa Mobil</span>
                     <ArrowUpRight className="size-4" />

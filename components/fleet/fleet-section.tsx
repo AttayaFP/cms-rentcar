@@ -121,7 +121,7 @@ const DEFAULT_CARS: Car[] = [
   }
 ]
 
-export function FleetSection({ initialCars, categories }: FleetSectionProps) {
+export function FleetSection({ initialCars }: FleetSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
 
   const cars = initialCars && initialCars.length > 0 ? initialCars : DEFAULT_CARS
@@ -140,12 +140,12 @@ export function FleetSection({ initialCars, categories }: FleetSectionProps) {
       : cars.filter((car) => car.category_id === selectedCategory)
 
   return (
-    <section id="armada" className="relative scroll-mt-20 bg-slate-50 py-24 transition-colors dark:bg-[#070A10]">
+    <section id="armada" className="relative scroll-mt-20 bg-[#FBFBF9] py-24 transition-colors dark:bg-[#070A10]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-amber-500/10 px-4 py-1.5 shadow-sm dark:bg-[#0F172A]">
-            <CarIcon className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-[#F1F5F9]">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#C5A059]/40 bg-[#C5A059]/10 px-4 py-1.5 shadow-sm">
+            <CarIcon className="size-4 text-[#92400E] dark:text-[#FDE68A]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#92400E] dark:text-[#FDE68A]">
               Pilihan Kendaraan Prima
             </span>
           </div>
@@ -160,14 +160,14 @@ export function FleetSection({ initialCars, categories }: FleetSectionProps) {
         </div>
 
         <div className="mt-10 flex overflow-x-auto pb-2 scrollbar-none sm:justify-center">
-          <div className="inline-flex gap-2 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm dark:border-white/10 dark:bg-[#0B0F17]">
+          <div className="inline-flex gap-2 rounded-2xl border border-stone-200/80 bg-white p-1.5 shadow-sm dark:border-white/10 dark:bg-[#0B0F17]">
             {filterTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setSelectedCategory(tab.id)}
                 className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-xs font-bold transition-all ${
                   selectedCategory === tab.id
-                    ? "bg-gradient-to-r from-[#D4AF37] to-[#AA7C11] text-[#0F172A] shadow-md"
+                    ? "bg-gradient-to-r from-[#C5A059] to-[#9A7B38] text-slate-950 shadow-md"
                     : "text-slate-600 hover:text-slate-900 dark:text-[#94A3B8] dark:hover:text-white"
                 }`}
               >

@@ -13,11 +13,11 @@ export function CarCard({ car }: CarCardProps) {
     "/images/main/car-placeholder.svg"
 
   const whatsappMessage = `Halo Nabil Rental Padang, saya ingin booking mobil ${car.name}. Mohon info ketersediaan unit dan persyaratannya. Terima kasih.`
-  const whatsappUrl = `https://wa.me/6282279690769?text=${encodeURIComponent(whatsappMessage)}`
+  const whatsappUrl = `https://wa.me/6282287140724?text=${encodeURIComponent(whatsappMessage)}`
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-[#D4AF37] hover:shadow-xl dark:border-white/10 dark:bg-[#0B0F17] dark:hover:border-[#D4AF37]/50">
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 dark:bg-[#070A10]">
+    <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-stone-200/80 bg-white shadow-sm transition-all duration-300 hover:border-[#C5A059]/60 hover:shadow-xl dark:border-white/10 dark:bg-[#0B0F17] dark:hover:border-[#C5A059]/40">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-stone-100 dark:bg-[#070A10]">
         <Image
           src={primaryImage}
           alt={car.name}
@@ -39,7 +39,7 @@ export function CarCard({ car }: CarCardProps) {
             <span
               className={`size-1.5 rounded-full ${
                 car.status === "Tersedia"
-                  ? "bg-emerald-600 animate-pulse dark:bg-emerald-400"
+                  ? "bg-emerald-600 dark:bg-emerald-400"
                   : car.status === "Disewa"
                   ? "bg-amber-600 dark:bg-amber-400"
                   : "bg-zinc-600 dark:bg-zinc-400"
@@ -50,33 +50,33 @@ export function CarCard({ car }: CarCardProps) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-lg font-bold text-slate-900 transition-colors group-hover:text-[#B45309] dark:text-white dark:group-hover:text-[#FDE68A]">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <h3 className="text-lg font-bold text-slate-900 transition-colors group-hover:text-[#92400E] dark:text-white dark:group-hover:text-[#FDE68A]">
           {car.name}
         </h3>
 
-        <div className="mt-4 grid grid-cols-2 gap-2 border-y border-slate-100 py-3 text-xs text-slate-600 dark:border-white/10 dark:text-[#94A3B8]">
+        <div className="mt-4 grid grid-cols-2 gap-2 border-y border-stone-200/80 py-3 text-xs text-slate-600 dark:border-white/10 dark:text-[#94A3B8]">
           <div className="flex items-center gap-2">
-            <Gauge className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
+            <Gauge className="size-4 text-[#92400E] dark:text-[#C5A059]" />
             <span className="font-medium">{car.transmission}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Users className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
+            <Users className="size-4 text-[#92400E] dark:text-[#C5A059]" />
             <span className="font-medium">{car.seats} Kursi</span>
           </div>
           <div className="flex items-center gap-2">
-            <Briefcase className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
+            <Briefcase className="size-4 text-[#92400E] dark:text-[#C5A059]" />
             <span className="font-medium">{car.luggage} Koper</span>
           </div>
           <div className="flex items-center gap-2">
-            <Fuel className="size-4 text-[#B45309] dark:text-[#D4AF37]" />
+            <Fuel className="size-4 text-[#92400E] dark:text-[#C5A059]" />
             <span className="font-medium">{car.fuel_type || "Bensin"}</span>
           </div>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-transparent dark:bg-white/5">
+        <div className="mt-4 grid grid-cols-2 gap-2 rounded-2xl border border-stone-200/80 bg-stone-50 p-3.5 dark:border-transparent dark:bg-white/5">
           <div>
-            <span className="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-[#94A3B8]">
+            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-[#94A3B8]">
               Lepas Kunci
             </span>
             {car.price_self_drive > 0 ? (
@@ -94,10 +94,10 @@ export function CarCard({ car }: CarCardProps) {
           </div>
 
           <div>
-            <span className="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-[#94A3B8]">
+            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-[#94A3B8]">
               + Driver
             </span>
-            <span className="text-sm font-extrabold text-[#B45309] dark:text-[#D4AF37]">
+            <span className="text-sm font-extrabold text-[#92400E] dark:text-[#FDE68A]">
               Rp {car.price_with_driver.toLocaleString("id-ID")}
             </span>
             <span className="text-[10px] text-slate-500 dark:text-[#64748B]"> / Hari</span>
@@ -108,7 +108,7 @@ export function CarCard({ car }: CarCardProps) {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-[#25D366]/25 transition-all hover:bg-[#20bd5a] hover:shadow-lg active:scale-98"
+          className="mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-[#25D366]/20 transition-all hover:bg-[#1EBE5D] hover:shadow-lg active:scale-98"
         >
           <Image
             src="/images/main/whatsapp.png"

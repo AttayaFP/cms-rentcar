@@ -4,6 +4,7 @@ import { HeroSequence } from "@/components/home/hero-sequence"
 import { FeaturesSection } from "@/components/home/features-section"
 import { FleetSection } from "@/components/fleet/fleet-section"
 import { DestinationsSection } from "@/components/home/destinations-section"
+import { LocationSection } from "@/components/home/location-section"
 import { Footer } from "@/components/layout/footer"
 import { FloatingWhatsApp } from "@/components/common/floating-whatsapp"
 import { Car, Category } from "@/types/database"
@@ -37,13 +38,14 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#070A10]">
+    <div className="flex min-h-screen flex-col bg-[#FBFBF9] text-slate-900 dark:bg-[#070A10] dark:text-white">
       <Navbar />
       <main className="flex-1">
         <HeroSequence />
         <FeaturesSection />
         <FleetSection initialCars={initialCars} categories={categories} />
         <DestinationsSection />
+        <LocationSection />
       </main>
       <Footer />
       <FloatingWhatsApp />
