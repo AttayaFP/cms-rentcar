@@ -7,6 +7,7 @@ import { DestinationsSection } from "@/components/home/destinations-section"
 import { LocationSection } from "@/components/home/location-section"
 import { Footer } from "@/components/layout/footer"
 import { FloatingWhatsApp } from "@/components/common/floating-whatsapp"
+import { MobileBottomBar } from "@/components/common/mobile-bottom-bar"
 import { Car, Category } from "@/types/database"
 
 export const revalidate = 60
@@ -38,7 +39,7 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#FBFBF9] text-slate-900 dark:bg-[#070A10] dark:text-white">
+    <div className="flex min-h-screen flex-col bg-[#FBFBF9] text-slate-900 dark:bg-[#070A10] dark:text-white pb-16 md:pb-0">
       <Navbar />
       <main className="flex-1">
         <HeroSequence />
@@ -49,6 +50,7 @@ export default async function HomePage() {
       </main>
       <Footer />
       <FloatingWhatsApp />
+      <MobileBottomBar />
     </div>
   )
 }

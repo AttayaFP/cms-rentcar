@@ -20,7 +20,7 @@ export function FeaturesSection() {
   ]
 
   return (
-    <section id="keunggulan" className="relative scroll-mt-20 border-t border-stone-200/80 bg-[#FBFBF9] py-24 transition-colors dark:border-white/10 dark:bg-[#05080E]">
+    <section id="keunggulan" className="relative scroll-mt-20 border-t border-stone-200/80 bg-[#FBFBF9] py-14 sm:py-20 lg:py-24 transition-colors dark:border-white/10 dark:bg-[#05080E]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
           <div className="lg:col-span-6">

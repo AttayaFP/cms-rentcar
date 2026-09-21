@@ -140,7 +140,7 @@ export function FleetSection({ initialCars }: FleetSectionProps) {
       : cars.filter((car) => car.category_id === selectedCategory)
 
   return (
-    <section id="armada" className="relative scroll-mt-20 bg-[#FBFBF9] py-24 transition-colors dark:bg-[#070A10]">
+    <section id="armada" className="relative scroll-mt-20 bg-[#FBFBF9] py-14 sm:py-20 lg:py-24 transition-colors dark:bg-[#070A10]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#C5A059]/40 bg-[#C5A059]/10 px-4 py-1.5 shadow-sm">
@@ -159,7 +159,7 @@ export function FleetSection({ initialCars }: FleetSectionProps) {
           </p>
         </div>
 
-        <div className="mt-10 flex overflow-x-auto pb-2 scrollbar-none sm:justify-center">
+        <div className="mt-8 -mx-4 flex overflow-x-auto px-4 pb-2 scrollbar-none sm:mx-0 sm:mt-10 sm:justify-center sm:px-0">
           <div className="inline-flex gap-2 rounded-2xl border border-stone-200/80 bg-white p-1.5 shadow-sm dark:border-white/10 dark:bg-[#0B0F17]">
             {filterTabs.map((tab) => (
               <button

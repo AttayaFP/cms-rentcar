@@ -6,7 +6,7 @@ export function LocationSection() {
   const whatsappUrl = "https://wa.me/6282287140724?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20tanya%20titik%20penjemputan%20atau%20alamat%20kantor."
 
   return (
-    <section id="lokasi" className="relative py-24 bg-[#F5F4F0] dark:bg-[#06080C]">
+    <section id="lokasi" className="relative py-14 sm:py-20 lg:py-24 bg-[#F5F4F0] dark:bg-[#06080C]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#C5A059]/30 bg-[#C5A059]/10 px-4 py-1.5 backdrop-blur-sm">
@@ -112,7 +112,7 @@ export function LocationSection() {
             </div>
           </div>
 
-          <div className="relative min-h-[380px] overflow-hidden rounded-3xl border border-stone-200/80 bg-white shadow-xl lg:col-span-7 lg:min-h-[460px] dark:border-white/10 dark:bg-[#0B0F17]">
+          <div className="relative min-h-[300px] sm:min-h-[380px] overflow-hidden rounded-3xl border border-stone-200/80 bg-white shadow-xl lg:col-span-7 lg:min-h-[460px] dark:border-white/10 dark:bg-[#0B0F17]">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d249.33402934609964!2d100.3591148!3d-0.8830518!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd4c7c84d933eff%3A0x2755132c5c3499b7!2sSEWA%20TOYOTA%20HIACE%20PADANG%20%7C%7C%20RENTAL%20MOBIL%20PADANG.N_RENTCARPADANG!5e0!3m2!1sid!2sid!4v1790017293031!5m2!1sid!2sid"
               className="absolute inset-0 h-full w-full border-0"

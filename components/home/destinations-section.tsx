@@ -50,7 +50,7 @@ export function DestinationsSection() {
   ]
 
   return (
-    <section id="wisata" className="relative scroll-mt-20 bg-[#F5F4F0] py-24 transition-colors dark:bg-[#070A10]">
+    <section id="wisata" className="relative scroll-mt-20 bg-[#F5F4F0] py-14 sm:py-20 lg:py-24 transition-colors dark:bg-[#070A10]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#C5A059]/40 bg-[#C5A059]/10 px-4 py-1.5 shadow-sm">
