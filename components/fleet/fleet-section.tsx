@@ -27,7 +27,10 @@ const DEFAULT_CARS: Car[] = [
     description: "Mobil terfavorit perjalanan dinas dan keluarga di Sumatera Barat. Sangat bertenaga di tanjakan Sitinjau Lauik.",
     features: ["AC Double Blower", "Audio Touchscreen", "Kamera Mundur", "Captain Seat"],
     created_at: new Date().toISOString(),
-    images: [{ id: "img-1", car_id: "default-1", image_url: "/images/main/car-placeholder.svg", is_primary: true, order_index: 0, created_at: "" }]
+    images: [
+      { id: "img-1-1", car_id: "default-1", image_url: "/images/cars/innova-reborn-1.jpg", is_primary: true, order_index: 0, created_at: "" },
+      { id: "img-1-2", car_id: "default-1", image_url: "/images/cars/innova-reborn-2.jpg", is_primary: false, order_index: 1, created_at: "" }
+    ]
   },
   {
     id: "default-2",
@@ -45,7 +48,10 @@ const DEFAULT_CARS: Car[] = [
     description: "Ekonomis, lincah, dan nyaman untuk mobilitas di Kota Padang maupun rute Bukittinggi.",
     features: ["AC Dingin", "Wireless Charger", "Dual Airbags"],
     created_at: new Date().toISOString(),
-    images: [{ id: "img-2", car_id: "default-2", image_url: "/images/main/car-placeholder.svg", is_primary: true, order_index: 0, created_at: "" }]
+    images: [
+      { id: "img-2-1", car_id: "default-2", image_url: "/images/cars/avanza-veloz-1.jpg", is_primary: true, order_index: 0, created_at: "" },
+      { id: "img-2-2", car_id: "default-2", image_url: "/images/cars/avanza-veloz-2.jpg", is_primary: false, order_index: 1, created_at: "" }
+    ]
   },
   {
     id: "default-3",
@@ -63,7 +69,10 @@ const DEFAULT_CARS: Car[] = [
     description: "Generasi terbaru dengan suspensi empuk TNGA, kabin kedap, dan kenyamanan setara kelas eksekutif.",
     features: ["Panoramic Sunroof", "Paddle Shift", "Ambient Light"],
     created_at: new Date().toISOString(),
-    images: [{ id: "img-3", car_id: "default-3", image_url: "/images/main/car-placeholder.svg", is_primary: true, order_index: 0, created_at: "" }]
+    images: [
+      { id: "img-3-1", car_id: "default-3", image_url: "/images/cars/innova-zenix-1.jpg", is_primary: true, order_index: 0, created_at: "" },
+      { id: "img-3-2", car_id: "default-3", image_url: "/images/cars/innova-zenix-2.jpg", is_primary: false, order_index: 1, created_at: "" }
+    ]
   },
   {
     id: "default-4",
@@ -81,7 +90,10 @@ const DEFAULT_CARS: Car[] = [
     description: "SUV gagah untuk kebutuhan VIP, protokoler kedinasan, dan medan berat perbukitan Sumatera Barat.",
     features: ["4x2 GR Package", "Power Backdoor", "Blind Spot Monitor"],
     created_at: new Date().toISOString(),
-    images: [{ id: "img-4", car_id: "default-4", image_url: "/images/main/car-placeholder.svg", is_primary: true, order_index: 0, created_at: "" }]
+    images: [
+      { id: "img-4-1", car_id: "default-4", image_url: "/images/cars/fortuner-gr-1.jpg", is_primary: true, order_index: 0, created_at: "" },
+      { id: "img-4-2", car_id: "default-4", image_url: "/images/cars/fortuner-gr-2.jpg", is_primary: false, order_index: 1, created_at: "" }
+    ]
   },
   {
     id: "default-5",
@@ -99,7 +111,10 @@ const DEFAULT_CARS: Car[] = [
     description: "Pilihan utama rombongan tour Mandeh dan Harau. Kapasitas luas, legroom lega, dan suspensi nyaman.",
     features: ["Reclining Seats", "Kabin Tinggi", "Port USB di Setiap Baris"],
     created_at: new Date().toISOString(),
-    images: [{ id: "img-5", car_id: "default-5", image_url: "/images/main/car-placeholder.svg", is_primary: true, order_index: 0, created_at: "" }]
+    images: [
+      { id: "img-5-1", car_id: "default-5", image_url: "/images/cars/hiace-premio-1.jpg", is_primary: true, order_index: 0, created_at: "" },
+      { id: "img-5-2", car_id: "default-5", image_url: "/images/cars/hiace-premio-2.jpg", is_primary: false, order_index: 1, created_at: "" }
+    ]
   },
   {
     id: "default-6",
@@ -117,7 +132,10 @@ const DEFAULT_CARS: Car[] = [
     description: "City car paling gesit dan hemat BBM. Pilihan tepat untuk keliling kulineran di Kota Padang.",
     features: ["Smart Entry", "Display Audio 7 inch", "Velg Alloy 15 inch"],
     created_at: new Date().toISOString(),
-    images: [{ id: "img-6", car_id: "default-6", image_url: "/images/main/car-placeholder.svg", is_primary: true, order_index: 0, created_at: "" }]
+    images: [
+      { id: "img-6-1", car_id: "default-6", image_url: "/images/cars/brio-rs-1.jpg", is_primary: true, order_index: 0, created_at: "" },
+      { id: "img-6-2", car_id: "default-6", image_url: "/images/cars/brio-rs-2.jpg", is_primary: false, order_index: 1, created_at: "" }
+    ]
   }
 ]
 

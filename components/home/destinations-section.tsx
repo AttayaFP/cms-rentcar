@@ -7,6 +7,7 @@ export function DestinationsSection() {
       title: "Jam Gadang & Ngarai Sianok",
       location: "Kota Bukittinggi",
       image: "/images/main/bukittinggi-jam-gadang.webp",
+      imagePosition: "object-[center_top]",
       distance: "90 KM dari Padang",
       duration: "2.5 Jam Perjalanan",
       roadType: "Jalur aspal pegunungan berliku via Lembah Anai",
@@ -17,7 +18,8 @@ export function DestinationsSection() {
     {
       title: "Kawasan Wisata Bahari Mandeh",
       location: "Pesisir Selatan",
-      image: "/images/main/kawasan-mandeh.webp",
+      image: "/images/main/kawasan-mandeh-bay.webp",
+      imagePosition: "object-center",
       distance: "55 KM dari Padang",
       duration: "1.5 Jam Perjalanan",
       roadType: "Jalan baru aspal mulus berkelok di tepi teluk laut",
@@ -29,6 +31,7 @@ export function DestinationsSection() {
       title: "Lembah Harau & Jembatan Kelok 9",
       location: "Kabupaten Lima Puluh Kota",
       image: "/images/main/lembah-harau-kelok9.webp",
+      imagePosition: "object-center",
       distance: "135 KM dari Padang",
       duration: "3.5 Jam Perjalanan",
       roadType: "Jalan lintas provinsi lebar dan jalur tanjakan layang",
@@ -40,6 +43,7 @@ export function DestinationsSection() {
       title: "Bandara Internasional Minangkabau (BIM)",
       location: "Padang Pariaman",
       image: "/images/main/bim-airport.webp",
+      imagePosition: "object-center",
       distance: "25 KM dari Pusat Kota",
       duration: "35 Menit Perjalanan",
       roadType: "Jalur bypass dua jalur bebas hambatan",
@@ -75,13 +79,13 @@ export function DestinationsSection() {
               key={index}
               className="group flex flex-col overflow-hidden rounded-3xl border border-stone-200/80 bg-white shadow-sm transition-all duration-300 hover:border-[#C5A059]/60 hover:shadow-xl dark:border-white/10 dark:bg-[#0B0F17] dark:hover:border-[#C5A059]/50"
             >
-              <div className="relative aspect-[16/11] w-full overflow-hidden bg-stone-100 dark:bg-[#070A10]">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100 dark:bg-[#070A10]">
                 <Image
                   src={spot.image}
                   alt={spot.title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className={`object-cover transition-transform duration-500 group-hover:scale-105 ${spot.imagePosition}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-3 left-3">
