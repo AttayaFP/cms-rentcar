@@ -1,9 +1,10 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "motion/react"
 import { Car, Category } from "@/types/database"
 import { CarCard } from "@/components/fleet/car-card"
-import { Car as CarIcon } from "lucide-react"
+import { Car as CarIcon, ArrowRight } from "lucide-react"
 
 interface FleetSectionProps {
   initialCars?: Car[]
@@ -195,9 +196,28 @@ export function FleetSection({ initialCars }: FleetSectionProps) {
           </div>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredCars.map((car) => (
-            <CarCard key={car.id} car={car} />
+        <div className="mt-8 flex items-center justify-between sm:hidden">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">
+            <span>Geser armada</span>
+            <ArrowRight className="size-3.5 animate-pulse" />
+          </div>
+          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+            {filteredCars.length} Unit
+          </span>
+        </div>
+
+        <div className="mt-4 sm:mt-12 -mx-4 flex overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 scrollbar-none sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 sm:gap-6">
+          {filteredCars.map((car, index) => (
+            <motion.div
+              key={car.id}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: index * 0.05 }}
+              className="w-[85vw] max-w-[340px] shrink-0 snap-center sm:w-auto sm:shrink sm:snap-align-none"
+            >
+              <CarCard car={car} />
+            </motion.div>
           ))}
         </div>
       </div>

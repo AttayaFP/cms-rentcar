@@ -1,5 +1,8 @@
+"use client"
+
 import Image from "next/image"
-import { Compass, Clock, MapPin, Car, ArrowUpRight } from "lucide-react"
+import { motion } from "motion/react"
+import { Compass, Clock, MapPin, Car, ArrowUpRight, ArrowRight } from "lucide-react"
 
 export function DestinationsSection() {
   const touristSpots = [
@@ -73,12 +76,29 @@ export function DestinationsSection() {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 flex items-center justify-between sm:hidden">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">
+            <span>Geser destinasi</span>
+            <ArrowRight className="size-3.5 animate-pulse" />
+          </div>
+          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+            {touristSpots.length} Rute
+          </span>
+        </div>
+
+        <div className="mt-4 sm:mt-12 -mx-4 flex overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 scrollbar-none sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4 sm:gap-6">
           {touristSpots.map((spot, index) => (
-            <article
+            <motion.div
               key={index}
-              className="group flex flex-col overflow-hidden rounded-3xl border border-stone-200/80 bg-white shadow-sm transition-all duration-300 hover:border-[#C5A059]/60 hover:shadow-xl dark:border-white/10 dark:bg-[#0B0F17] dark:hover:border-[#C5A059]/50"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: index * 0.05 }}
+              className="w-[82vw] max-w-[320px] shrink-0 snap-center sm:w-auto sm:shrink sm:snap-align-none"
             >
+              <article
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-stone-200/80 bg-white shadow-sm transition-all duration-300 hover:border-[#C5A059]/60 hover:shadow-xl dark:border-white/10 dark:bg-[#0B0F17] dark:hover:border-[#C5A059]/50"
+              >
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100 dark:bg-[#070A10]">
                 <Image
                   src={spot.image}
@@ -138,7 +158,8 @@ export function DestinationsSection() {
                 </div>
               </div>
             </article>
-          ))}
+          </motion.div>
+        ))}
         </div>
       </div>
     </section>

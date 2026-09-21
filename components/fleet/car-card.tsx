@@ -191,16 +191,20 @@ export function CarCard({ car }: CarCardProps) {
               <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-[#94A3B8]">
                 Lepas Kunci
               </span>
-              {car.price_self_drive > 0 ? (
+              {typeof car.price_self_drive === "number" && car.price_self_drive > 0 ? (
                 <>
                   <span className="text-sm font-extrabold text-slate-900 dark:text-white">
                     Rp {car.price_self_drive.toLocaleString("id-ID")}
                   </span>
                   <span className="text-[10px] text-slate-500 dark:text-[#64748B]"> / 24 Jam</span>
                 </>
-              ) : (
+              ) : car.price_self_drive === 0 ? (
                 <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
                   Khusus Driver
+                </span>
+              ) : (
+                <span className="text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">
+                  Hubungi Admin
                 </span>
               )}
             </div>
@@ -209,10 +213,18 @@ export function CarCard({ car }: CarCardProps) {
               <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-[#94A3B8]">
                 + Driver
               </span>
-              <span className="text-sm font-extrabold text-[#92400E] dark:text-[#FDE68A]">
-                Rp {car.price_with_driver.toLocaleString("id-ID")}
-              </span>
-              <span className="text-[10px] text-slate-500 dark:text-[#64748B]"> / Hari</span>
+              {typeof car.price_with_driver === "number" && car.price_with_driver > 0 ? (
+                <>
+                  <span className="text-sm font-extrabold text-[#92400E] dark:text-[#FDE68A]">
+                    Rp {car.price_with_driver.toLocaleString("id-ID")}
+                  </span>
+                  <span className="text-[10px] text-slate-500 dark:text-[#64748B]"> / Hari</span>
+                </>
+              ) : (
+                <span className="text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">
+                  Hubungi Admin
+                </span>
+              )}
             </div>
           </div>
 

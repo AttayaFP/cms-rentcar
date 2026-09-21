@@ -4,6 +4,9 @@ import { HeroSequence } from "@/components/home/hero-sequence"
 import { FeaturesSection } from "@/components/home/features-section"
 import { FleetSection } from "@/components/fleet/fleet-section"
 import { DestinationsSection } from "@/components/home/destinations-section"
+import { TermsSection } from "@/components/home/terms-section"
+import { TestimonialsSection } from "@/components/home/testimonials-section"
+import { FaqSection } from "@/components/home/faq-section"
 import { LocationSection } from "@/components/home/location-section"
 import { Footer } from "@/components/layout/footer"
 import { FloatingWhatsApp } from "@/components/common/floating-whatsapp"
@@ -46,6 +49,9 @@ export default async function HomePage() {
         <FeaturesSection />
         <FleetSection initialCars={initialCars} categories={categories} />
         <DestinationsSection />
+        <TermsSection />
+        <TestimonialsSection />
+        <FaqSection />
         <LocationSection />
       </main>
       <Footer />

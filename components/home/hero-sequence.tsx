@@ -157,14 +157,12 @@ export function HeroSequence() {
               Nabil Rental Mobil Padang
             </span>
           </div>
-
-          <h1 className="mt-3 max-w-4xl text-2xl font-black tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] sm:mt-6 sm:text-5xl md:text-6xl lg:text-7xl">
-            Eksplorasi Ranah Minang{" "}
-            <span className="bg-gradient-to-r from-[#FDE68A] via-[#D4AF37] to-[#F59E0B] bg-clip-text text-transparent drop-shadow-md">
-              Tanpa Ragu
-            </span>
-          </h1>
-
+<h1 className="mt-3 text-2xl font-black leading-snug tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl">
+  <span className="block">Jelajahi Ranah Minang</span>
+  <span className="block mt-1 bg-gradient-to-r from-[#FDE68A] via-[#D4AF37] to-[#F59E0B] bg-clip-text text-transparent drop-shadow-md">
+    Lebih Aman &amp; Nyaman
+  </span>
+</h1>
           <div className="mt-3 max-w-xl rounded-xl border border-white/20 bg-black/70 px-4 py-2.5 sm:mt-4 sm:rounded-2xl sm:px-6 sm:py-4 shadow-2xl backdrop-blur-md">
             <p className="text-xs font-medium leading-relaxed text-white sm:text-base md:text-lg">
               Sewa mobil terpercaya di Padang dengan layanan antar jemput Bandara BIM 24 jam,

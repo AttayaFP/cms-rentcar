@@ -84,7 +84,7 @@ export function FeaturesSection() {
             </div>
           </div>
 
-          <div id="syarat" className="scroll-mt-24 lg:col-span-6">
+          <div id="verifikasi-syarat" className="scroll-mt-24 lg:col-span-6">
             <div className="overflow-hidden rounded-3xl border border-stone-200/80 bg-white p-6 shadow-xl dark:border-white/10 dark:bg-[#0B0F17] sm:p-8">
               <div className="flex items-center gap-4 border-b border-stone-200/80 pb-6 dark:border-white/10">
                 <div className="size-14 shrink-0 overflow-hidden rounded-2xl bg-stone-50 shadow-sm dark:bg-[#0F172A]">
