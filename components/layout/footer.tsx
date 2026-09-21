@@ -58,7 +58,7 @@ export function Footer() {
             </h3>
             <div className="flex items-start gap-2.5 text-sm">
               <MapPin className="mt-0.5 size-4 shrink-0 text-[#FDE68A] dark:text-[#D4AF37]" />
-              <span>Kota Padang, Sumatera Barat, Indonesia</span>
+              <span>Komplek Perumdam III/4, Tunggul Hitam, Kota Padang, Sumatera Barat</span>
             </div>
             <div className="flex items-center gap-2.5 text-sm">
               <Phone className="size-4 shrink-0 text-[#FDE68A] dark:text-[#D4AF37]" />

@@ -84,16 +84,16 @@ const jsonLd = {
   "priceRange": "Rp 300.000 - Rp 1.500.000",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Kota Padang",
+    "streetAddress": "Komplek Perumdam III/4, Tunggul Hitam",
     "addressLocality": "Padang",
     "addressRegion": "Sumatera Barat",
-    "postalCode": "25000",
+    "postalCode": "25173",
     "addressCountry": "ID"
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": -0.9471,
-    "longitude": 100.4172
+    "latitude": -0.8830518,
+    "longitude": 100.3591148
   },
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",

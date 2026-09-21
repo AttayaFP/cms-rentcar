@@ -36,11 +36,21 @@ export function LocationSection() {
                   SEWA TOYOTA HIACE PADANG || RENTAL MOBIL PADANG
                 </h3>
                 <p className="mt-2 text-xs font-medium leading-relaxed text-slate-600 sm:text-sm dark:text-[#94A3B8]">
-                  N_RENTCARPADANG, Kota Padang, Sumatera Barat. Berada di lokasi strategis dekat jalur utama penghubung BIM, pusat pemerintahan, dan jalur lintas Sumatera.
+                  Komplek Perumdam III/4, Tunggul Hitam, Kota Padang, Sumatera Barat. Berada di lokasi strategis dekat jalur utama penghubung Bandara BIM dan pusat Kota Padang.
                 </p>
               </div>
 
               <div className="space-y-3.5 border-y border-stone-200/80 py-6 dark:border-white/10">
+                <div className="flex items-start gap-3.5">
+                  <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-[#92400E] dark:bg-white/5 dark:text-[#FDE68A]">
+                    <MapPin className="size-4.5" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-900 dark:text-white">Alamat Workshop &amp; Pool</p>
+                    <p className="text-xs text-slate-600 dark:text-[#94A3B8]">Komplek Perumdam III/4, Tunggul Hitam, Kota Padang</p>
+                  </div>
+                </div>
+
                 <div className="flex items-start gap-3.5">
                   <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-[#92400E] dark:bg-white/5 dark:text-[#FDE68A]">
                     <Clock className="size-4.5" />
