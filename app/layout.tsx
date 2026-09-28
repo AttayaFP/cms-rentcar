@@ -11,19 +11,24 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://nabilrentcarpadang.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.nabilrentalmobilpadang.biz.id"),
   title: {
-    default: "Nabil Rental Mobil Padang: Sewa Mobil Lepas Kunci & Antar Jemput Bandara BIM",
+    default: "Rental Mobil Padang Nomor 1: Sewa Mobil Lepas Kunci & Driver",
     template: "%s | Nabil Rental Mobil Padang",
   },
   description:
-    "Jasa rental mobil Padang terpercaya. Melayani sewa mobil lepas kunci dan dengan supir untuk rute Padang, Bukittinggi, Mandeh, Harau. Unit terawat siap tanjakan, serah terima 24 jam di Bandara BIM.",
+    "Rental mobil Padang nomor 1 dan jasa sewa mobil Padang terpercaya. Tersedia sewa mobil lepas kunci dan dengan supir profesional untuk rute Padang, Bukittinggi, Mandeh, Harau. Serah terima 24 jam di Bandara BIM, armada terawat prima siap tanjakan Sitinjau Lauik.",
   keywords: [
     "rental mobil padang",
+    "rental padang",
+    "mobil padang",
+    "rental mobil",
     "sewa mobil padang",
     "rental mobil lepas kunci padang",
     "sewa mobil dengan supir padang",
     "rental mobil bandara bim padang",
+    "sewa mobil murah padang",
+    "rental mobil nomor 1 padang",
     "sewa innova reborn padang",
     "rental hiace padang",
     "paket wisata sumatera barat",
@@ -32,16 +37,19 @@ export const metadata: Metadata = {
   authors: [{ name: "Nabil Rental Mobil Padang" }],
   creator: "Nabil Rental Mobil Padang",
   publisher: "Nabil Rental Mobil Padang",
+  alternates: {
+    canonical: "https://www.nabilrentalmobilpadang.biz.id",
+  },
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: "Nabil Rental Mobil Padang: Sewa Mobil Lepas Kunci & Bandara BIM",
+    title: "Rental Mobil Padang Nomor 1: Sewa Mobil Lepas Kunci & Driver",
     description:
-      "Rental mobil nomor 1 di Padang, Sumatera Barat. Unit bersih terawat, siap tanjakan ekstrem Sitinjau Lauik dan Kelok 44. Antar jemput Bandara BIM 24 jam.",
-    url: "https://nabilrentcarpadang.com",
+      "Rental mobil Padang nomor 1 dan sewa mobil Padang terpercaya. Unit bersih terawat, siap tanjakan ekstrem Sitinjau Lauik dan Kelok 44. Antar jemput Bandara BIM 24 jam.",
+    url: "https://www.nabilrentalmobilpadang.biz.id",
     siteName: "Nabil Rental Mobil Padang",
     images: [
       {
@@ -56,9 +64,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nabil Rental Mobil Padang: Sewa Mobil Lepas Kunci & Bandara BIM",
+    title: "Rental Mobil Padang Nomor 1: Sewa Mobil Lepas Kunci & Driver",
     description:
-      "Rental mobil Padang terpercaya. Antar jemput Bandara BIM 24 jam, armada siap tanjakan Sitinjau Lauik dan rute Bukittinggi.",
+      "Rental mobil Padang nomor 1 terpercaya. Antar jemput Bandara BIM 24 jam, armada siap tanjakan Sitinjau Lauik dan rute Bukittinggi.",
     images: ["/images/main/og-share.svg"],
   },
   robots: {
@@ -77,48 +85,83 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "AutoRental",
-  "name": "Nabil Rental Mobil Padang",
-  "image": "https://nabilrentcarpadang.com/images/main/og-share.svg",
-  "telephone": "+6282287140724",
-  "url": "https://nabilrentcarpadang.com",
-  "priceRange": "Rp 300.000 - Rp 1.500.000",
-  "address": {
+  "@id": "https://www.nabilrentalmobilpadang.biz.id/#autorental",
+  name: "Nabil Rental Mobil Padang",
+  alternateName: ["Nabil Rent Car Padang", "Rental Mobil Padang Nabil"],
+  image: "https://www.nabilrentalmobilpadang.biz.id/images/main/og-share.svg",
+  telephone: "+6282287140724",
+  url: "https://www.nabilrentalmobilpadang.biz.id",
+  priceRange: "Rp 300.000 - Rp 1.500.000",
+  currenciesAccepted: "IDR",
+  paymentAccepted: "Cash, Transfer Bank",
+  address: {
     "@type": "PostalAddress",
-    "streetAddress": "Komplek Perumdam III/4, Tunggul Hitam",
-    "addressLocality": "Padang",
-    "addressRegion": "Sumatera Barat",
-    "postalCode": "25173",
-    "addressCountry": "ID"
+    streetAddress: "Komplek Perumdam III/4, Tunggul Hitam",
+    addressLocality: "Padang",
+    addressRegion: "Sumatera Barat",
+    postalCode: "25173",
+    addressCountry: "ID",
   },
-  "geo": {
+  geo: {
     "@type": "GeoCoordinates",
-    "latitude": -0.8830518,
-    "longitude": 100.3591148
+    latitude: -0.8830518,
+    longitude: 100.3591148,
   },
-  "openingHoursSpecification": {
+  openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
-    "dayOfWeek": [
+    dayOfWeek: [
       "Monday",
       "Tuesday",
       "Wednesday",
       "Thursday",
       "Friday",
       "Saturday",
-      "Sunday"
+      "Sunday",
     ],
-    "opens": "00:00",
-    "closes": "23:59"
+    opens: "00:00",
+    closes: "23:59",
   },
-  "areaServed": [
-    "Kota Padang",
-    "Bandara Internasional Minangkabau (BIM)",
-    "Kota Bukittinggi",
-    "Kawasan Wisata Mandeh",
-    "Lembah Harau Payakumbuh",
-    "Kabupaten Pesisir Selatan",
-    "Kabupaten Padang Pariaman",
-    "Sumatera Barat"
-  ]
+  areaServed: [
+    {
+      "@type": "City",
+      name: "Padang",
+    },
+    {
+      "@type": "City",
+      name: "Bukittinggi",
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "Sumatera Barat",
+    },
+  ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Layanan Rental Mobil Padang",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Rental Mobil Lepas Kunci Padang",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Sewa Mobil Dengan Supir Padang",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Antar Jemput Bandara BIM Padang",
+        },
+      },
+    ],
+  },
 }
 
 export default function RootLayout({
