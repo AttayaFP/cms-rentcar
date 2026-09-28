@@ -5,24 +5,32 @@ import { usePathname } from "next/navigation"
 import { PlusCircle, ExternalLink, Car, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/common/theme-toggle"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 
 export function AdminHeader() {
   const pathname = usePathname()
 
   const getPageInfo = () => {
     if (pathname === "/admin/cars/new") {
-      return { title: "Tambah Mobil Baru", category: "Armada" }
+      return { title: "Tambah Mobil Baru", category: "Armada", categoryHref: "/admin/cars" }
     }
     if (pathname.includes("/edit")) {
-      return { title: "Edit Data Mobil", category: "Armada" }
+      return { title: "Edit Data Mobil", category: "Armada", categoryHref: "/admin/cars" }
     }
     if (pathname === "/admin/cars") {
-      return { title: "Kelola Armada Mobil", category: "Katalog" }
+      return { title: "Kelola Armada Mobil", category: "Katalog", categoryHref: "/admin" }
     }
-    return { title: "Dashboard & Ringkasan", category: "Overview" }
+    return { title: "Dashboard & Ringkasan", category: "Overview", categoryHref: "/admin" }
   }
 
-  const { title, category } = getPageInfo()
+  const { title, category, categoryHref } = getPageInfo()
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b border-border/80 bg-card px-4 md:px-8">
@@ -33,11 +41,21 @@ export function AdminHeader() {
           </div>
         </div>
 
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs">
-          <span className="text-muted-foreground font-medium">{category}</span>
-          <span className="text-muted-foreground">/</span>
-          <span className="font-semibold text-foreground">{title}</span>
-        </nav>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href={categoryHref} className="text-xs">
+                {category}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="text-xs font-semibold">
+                {title}
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
 
       <div className="flex items-center gap-3">

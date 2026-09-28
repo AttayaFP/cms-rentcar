@@ -6,11 +6,22 @@ import Image from "next/image"
 import Link from "next/link"
 import { createCarAction, updateCarAction } from "@/actions/cars"
 import { Car, Category } from "@/types/database"
-import { UploadCloud, CheckCircle2, ArrowLeft, Loader2, Sparkles } from "lucide-react"
+import { UploadCloud, CheckCircle2, ArrowLeft, Loader2, Sparkles, AlertCircle } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface CarFormProps {
   car?: Car
@@ -23,6 +34,10 @@ export function CarForm({ car, categories }: CarFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [previewUrls, setPreviewUrls] = useState<string[]>([])
+  const [isFeatured, setIsFeatured] = useState<boolean>(car?.is_featured ?? true)
+  const [categoryVal, setCategoryVal] = useState<string>(car?.category_id || (categories[0]?.id ?? ""))
+  const [transmissionVal, setTransmissionVal] = useState<string>(car?.transmission || "Otomatis")
+  const [statusVal, setStatusVal] = useState<string>(car?.status || "Tersedia")
 
   const isEditing = Boolean(car)
 
@@ -42,6 +57,11 @@ export function CarForm({ car, categories }: CarFormProps) {
 
     const form = e.currentTarget
     const formData = new FormData(form)
+
+    formData.set("category_id", categoryVal)
+    formData.set("transmission", transmissionVal)
+    formData.set("status", statusVal)
+    formData.set("is_featured", isFeatured ? "true" : "false")
 
     selectedFiles.forEach((file) => {
       formData.append("images", file)
@@ -76,19 +96,22 @@ export function CarForm({ car, categories }: CarFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-4xl">
       <div className="flex items-center justify-between">
-        <Link
-          href="/admin/cars"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <ArrowLeft className="size-3.5" />
-          <span>Kembali ke Daftar Armada</span>
-        </Link>
+        <Button variant="ghost" asChild size="sm" className="-ml-2 text-xs text-muted-foreground hover:text-foreground">
+          <Link href="/admin/cars" className="flex items-center gap-1.5">
+            <ArrowLeft className="size-3.5" />
+            <span>Kembali ke Daftar Armada</span>
+          </Link>
+        </Button>
       </div>
 
       {errorMessage && (
-        <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-3.5 text-xs font-medium text-destructive">
-          {errorMessage}
-        </div>
+        <Alert variant="destructive">
+          <AlertCircle className="size-4" />
+          <AlertTitle className="text-xs font-semibold">Gagal Menyimpan</AlertTitle>
+          <AlertDescription className="text-xs mt-1">
+            {errorMessage}
+          </AlertDescription>
+        </Alert>
       )}
 
       <Card>
@@ -99,11 +122,12 @@ export function CarForm({ car, categories }: CarFormProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="flex flex-col gap-1.5 sm:col-span-2">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2 sm:col-span-2">
+            <Label htmlFor="name" className="text-xs font-medium">
               Nama Lengkap Unit Mobil <span className="text-destructive">*</span>
-            </label>
+            </Label>
             <Input
+              id="name"
               type="text"
               name="name"
               required
@@ -112,43 +136,51 @@ export function CarForm({ car, categories }: CarFormProps) {
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2">
+            <Label className="text-xs font-medium">
               Kategori Armada
-            </label>
-            <select
-              name="category_id"
-              defaultValue={car?.category_id || ""}
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring text-foreground"
+            </Label>
+            <Select
+              value={categoryVal}
+              onValueChange={(val) => setCategoryVal(val as string)}
             >
-              <option value="" className="bg-popover text-popover-foreground">Pilih Kategori</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id} className="bg-popover text-popover-foreground">
-                  {cat.name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full text-xs">
+                <SelectValue placeholder="Pilih Kategori" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((cat) => (
+                  <SelectItem key={cat.id} value={cat.id} className="text-xs">
+                    {cat.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2">
+            <Label className="text-xs font-medium">
               Transmisi
-            </label>
-            <select
-              name="transmission"
-              defaultValue={car?.transmission || "Otomatis"}
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring text-foreground"
+            </Label>
+            <Select
+              value={transmissionVal}
+              onValueChange={(val) => setTransmissionVal(val as string)}
             >
-              <option value="Otomatis" className="bg-popover text-popover-foreground">Otomatis (Matic)</option>
-              <option value="Manual" className="bg-popover text-popover-foreground">Manual</option>
-            </select>
+              <SelectTrigger className="w-full text-xs">
+                <SelectValue placeholder="Pilih Transmisi" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Otomatis" className="text-xs">Otomatis (Matic)</SelectItem>
+                <SelectItem value="Manual" className="text-xs">Manual</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="fuel_type" className="text-xs font-medium">
               Bahan Bakar
-            </label>
+            </Label>
             <Input
+              id="fuel_type"
               type="text"
               name="fuel_type"
               defaultValue={car?.fuel_type || "Bensin"}
@@ -157,11 +189,12 @@ export function CarForm({ car, categories }: CarFormProps) {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="seats" className="text-xs font-medium">
                 Jumlah Kursi
-              </label>
+              </Label>
               <Input
+                id="seats"
                 type="number"
                 name="seats"
                 min="1"
@@ -169,11 +202,12 @@ export function CarForm({ car, categories }: CarFormProps) {
                 defaultValue={car?.seats || 7}
               />
             </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="luggage" className="text-xs font-medium">
                 Koper
-              </label>
+              </Label>
               <Input
+                id="luggage"
                 type="number"
                 name="luggage"
                 min="0"
@@ -193,11 +227,12 @@ export function CarForm({ car, categories }: CarFormProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="price_self_drive" className="text-xs font-medium">
               Tarif Lepas Kunci (Rp / 24 Jam)
-            </label>
+            </Label>
             <Input
+              id="price_self_drive"
               type="number"
               name="price_self_drive"
               step="50000"
@@ -209,11 +244,12 @@ export function CarForm({ car, categories }: CarFormProps) {
             </span>
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="price_with_driver" className="text-xs font-medium">
               Tarif + Driver (Rp / Hari) <span className="text-destructive">*</span>
-            </label>
+            </Label>
             <Input
+              id="price_with_driver"
               type="number"
               name="price_with_driver"
               step="50000"
@@ -223,37 +259,38 @@ export function CarForm({ car, categories }: CarFormProps) {
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2">
+            <Label className="text-xs font-medium">
               Status Ketersediaan
-            </label>
-            <select
-              name="status"
-              defaultValue={car?.status || "Tersedia"}
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring text-foreground"
+            </Label>
+            <Select
+              value={statusVal}
+              onValueChange={(val) => setStatusVal(val as string)}
             >
-              <option value="Tersedia" className="bg-popover text-popover-foreground">Tersedia (Ready booking)</option>
-              <option value="Disewa" className="bg-popover text-popover-foreground">Sedang Disewa Pelanggan</option>
-              <option value="Perawatan" className="bg-popover text-popover-foreground">Dalam Servis / Perawatan</option>
-            </select>
+              <SelectTrigger className="w-full text-xs">
+                <SelectValue placeholder="Pilih Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Tersedia" className="text-xs">Tersedia (Ready booking)</SelectItem>
+                <SelectItem value="Disewa" className="text-xs">Sedang Disewa Pelanggan</SelectItem>
+                <SelectItem value="Perawatan" className="text-xs">Dalam Servis / Perawatan</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="flex items-center gap-3 pt-6">
-            <input
-              type="checkbox"
+          <div className="flex items-center gap-2.5 pt-6">
+            <Checkbox
               id="is_featured"
-              name="is_featured"
-              value="true"
-              defaultChecked={car?.is_featured ?? true}
-              className="size-4 rounded border-input text-primary focus:ring-ring"
+              checked={isFeatured}
+              onCheckedChange={(checked) => setIsFeatured(Boolean(checked))}
             />
-            <label
+            <Label
               htmlFor="is_featured"
-              className="text-xs font-medium text-foreground flex items-center gap-1.5 cursor-pointer"
+              className="text-xs font-medium cursor-pointer flex items-center gap-1.5"
             >
               <Sparkles className="size-3.5 text-muted-foreground" />
               <span>Tampilkan sebagai Unit Unggulan / Favorit</span>
-            </label>
+            </Label>
           </div>
         </CardContent>
       </Card>
@@ -266,11 +303,12 @@ export function CarForm({ car, categories }: CarFormProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-5 flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="features" className="text-xs font-medium">
               Fasilitas Utama (Pisahkan dengan koma)
-            </label>
+            </Label>
             <Input
+              id="features"
               type="text"
               name="features"
               defaultValue={car?.features ? car.features.join(", ") : ""}
@@ -278,16 +316,17 @@ export function CarForm({ car, categories }: CarFormProps) {
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="description" className="text-xs font-medium">
               Deskripsi Singkat Kendaraan
-            </label>
-            <textarea
+            </Label>
+            <Textarea
+              id="description"
               name="description"
               rows={3}
               defaultValue={car?.description || ""}
               placeholder="Catatan keunggulan unit mobil, kenyamanan rute Bukittinggi / Mandeh..."
-              className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring text-foreground placeholder:text-muted-foreground resize-none"
+              className="resize-none text-xs"
             />
           </div>
         </CardContent>

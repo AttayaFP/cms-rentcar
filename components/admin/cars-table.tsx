@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Car } from "@/types/database"
 import { updateCarStatusAction, deleteCarAction } from "@/actions/cars"
-import { Edit3, Trash2, Search } from "lucide-react"
+import { Edit3, Trash2, Search, MoreHorizontal, ExternalLink, Loader2, AlertTriangle } from "lucide-react"
 import {
   Table,
   TableHeader,
@@ -17,16 +18,35 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface CarsTableProps {
   initialCars: Car[]
 }
 
 export function CarsTable({ initialCars }: CarsTableProps) {
+  const router = useRouter()
   const [cars, setCars] = useState<Car[]>(initialCars)
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [isUpdating, setIsUpdating] = useState<string | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const filteredCars = cars.filter((car) => {
     const matchesSearch =
@@ -54,36 +74,16 @@ export function CarsTable({ initialCars }: CarsTableProps) {
     setIsUpdating(null)
   }
 
-  const handleDelete = async (id: string, name: string) => {
-    if (!window.confirm(`Hapus unit ${name} dari daftar armada?`)) {
-      return
-    }
-    setIsUpdating(id)
-    const res = await deleteCarAction(id)
+  const confirmDelete = async () => {
+    if (!deleteTarget) return
+    setIsDeleting(true)
+    const res = await deleteCarAction(deleteTarget.id)
     if (res.success) {
-      setCars((prev) => prev.filter((c) => c.id !== id))
+      setCars((prev) => prev.filter((c) => c.id !== deleteTarget.id))
+      setDeleteTarget(null)
     }
-    setIsUpdating(null)
+    setIsDeleting(false)
   }
-
-  const filterTabs = [
-    { id: "all", label: "Semua Unit", count: cars.length },
-    {
-      id: "Tersedia",
-      label: "Tersedia",
-      count: cars.filter((c) => c.status === "Tersedia").length,
-    },
-    {
-      id: "Disewa",
-      label: "Disewa",
-      count: cars.filter((c) => c.status === "Disewa").length,
-    },
-    {
-      id: "Perawatan",
-      label: "Servis",
-      count: cars.filter((c) => c.status === "Perawatan").length,
-    },
-  ]
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -111,27 +111,45 @@ export function CarsTable({ initialCars }: CarsTableProps) {
     }
   }
 
+  const totalCount = cars.length
+  const availableCount = cars.filter((c) => c.status === "Tersedia").length
+  const rentedCount = cars.filter((c) => c.status === "Disewa").length
+  const maintenanceCount = cars.filter((c) => c.status === "Perawatan").length
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-1.5 rounded-lg border border-border/80 bg-muted/40 p-1 w-fit">
-          {filterTabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setStatusFilter(tab.id)}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${
-                statusFilter === tab.id
-                  ? "bg-background text-foreground shadow-xs"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <span>{tab.label}</span>
-              <span className="rounded-full bg-muted px-1.5 py-0.2 text-[10px] text-muted-foreground">
-                {tab.count}
+        <Tabs
+          value={statusFilter}
+          onValueChange={(val) => setStatusFilter(val as string)}
+        >
+          <TabsList>
+            <TabsTrigger value="all" className="gap-1.5 text-xs">
+              <span>Semua Unit</span>
+              <span className="rounded-full bg-muted-foreground/15 px-1.5 py-0.2 text-[10px]">
+                {totalCount}
               </span>
-            </button>
-          ))}
-        </div>
+            </TabsTrigger>
+            <TabsTrigger value="Tersedia" className="gap-1.5 text-xs">
+              <span>Tersedia</span>
+              <span className="rounded-full bg-muted-foreground/15 px-1.5 py-0.2 text-[10px]">
+                {availableCount}
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="Disewa" className="gap-1.5 text-xs">
+              <span>Disewa</span>
+              <span className="rounded-full bg-muted-foreground/15 px-1.5 py-0.2 text-[10px]">
+                {rentedCount}
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="Perawatan" className="gap-1.5 text-xs">
+              <span>Servis</span>
+              <span className="rounded-full bg-muted-foreground/15 px-1.5 py-0.2 text-[10px]">
+                {maintenanceCount}
+              </span>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
 
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
@@ -244,15 +262,36 @@ export function CarsTable({ initialCars }: CarsTableProps) {
                             <Edit3 className="size-3.5" />
                           </Link>
                         </Button>
-                        <Button
-                          variant="destructive"
-                          size="icon-sm"
-                          disabled={isUpdating === car.id}
-                          onClick={() => handleDelete(car.id, car.name)}
-                          title="Hapus Mobil"
-                        >
-                          <Trash2 className="size-3.5" />
-                        </Button>
+
+                        <DropdownMenu>
+                          <DropdownMenuTrigger className="inline-flex size-7 items-center justify-center rounded-lg border border-transparent hover:bg-muted text-muted-foreground hover:text-foreground outline-none">
+                            <MoreHorizontal className="size-3.5" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-44">
+                            <DropdownMenuItem
+                              onClick={() => router.push(`/admin/cars/${car.id}/edit`)}
+                              className="flex items-center gap-2 text-xs cursor-pointer"
+                            >
+                              <Edit3 className="size-3.5" />
+                              <span>Edit Detail Unit</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => window.open("/#armada", "_blank")}
+                              className="flex items-center gap-2 text-xs cursor-pointer"
+                            >
+                              <ExternalLink className="size-3.5" />
+                              <span>Lihat di Katalog Web</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => setDeleteTarget({ id: car.id, name: car.name })}
+                              className="flex items-center gap-2 text-xs text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer"
+                            >
+                              <Trash2 className="size-3.5" />
+                              <span>Hapus Armada</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -262,6 +301,48 @@ export function CarsTable({ initialCars }: CarsTableProps) {
           </TableBody>
         </Table>
       </div>
+
+      <Dialog
+        open={Boolean(deleteTarget)}
+        onOpenChange={(open) => !open && setDeleteTarget(null)}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex size-10 items-center justify-center rounded-full bg-destructive/10 text-destructive mb-2">
+              <AlertTriangle className="size-5" />
+            </div>
+            <DialogTitle className="text-base font-bold">Hapus Unit Armada?</DialogTitle>
+            <DialogDescription className="text-xs">
+              Apakah Anda yakin ingin menghapus <strong>{deleteTarget?.name}</strong> dari sistem? Tindakan ini permanen dan akan menghapus unit dari katalog publik.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={isDeleting}
+              onClick={() => setDeleteTarget(null)}
+            >
+              Batal
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              disabled={isDeleting}
+              onClick={confirmDelete}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="size-3.5 animate-spin" />
+                  <span>Menghapus...</span>
+                </>
+              ) : (
+                "Hapus Sekarang"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
