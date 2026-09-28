@@ -80,15 +80,18 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 6. All New Honda Brio RS 1.2 CVT (City Car, Otomatis, Bensin, 5 Seater, Rp 300rb / Rp 500rb)
 Semua unit di atas telah dilengkapi 2 foto resolusi tinggi (eksterior & interior kabin), badges fasilitas, dan terhubung ke dynamic WhatsApp CTA.
 
-## 7. Rencana Tugas Sesi Selanjutnya (Roadmap Besok)
+## 7. Rencana Tugas Sesi Selanjutnya (Roadmap)
 
-1. Autentikasi Pengelola Admin:
-   - Membuat halaman login admin (`/admin/login`) terintegrasi dengan Supabase Auth atau Session aman agar rute `/admin` terlindungi middleware Next.js.
-   - Redirect otomatis dari `/admin/*` ke `/admin/login` jika belum terautentikasi.
+1. Autentikasi Pengelola Admin [SELESAI]:
+   - Halaman login admin (`/admin/login`) terintegrasi Supabase Auth SSR.
+   - Proteksi rute otomatis via `middleware.ts` (redirect unauthenticated ke `/admin/login`).
+   - Akun admin aktif: `ptnabilrentalmobilpadang@gmail.com`.
+   - Tombol logout di header dan sidebar admin.
 2. Pengaturan Kontak & Bisnis Dinamis (`/admin/settings`):
    - Modul pengaturan nomor WhatsApp, rekening pembayaran, dan alamat kantor langsung dari panel admin tanpa ubah kodingan.
 3. Input Armada Real & Manajemen Gambar Supabase Storage:
    - Pengelola memasukkan foto asli unit operasional dan tarif resmi melalui form `/admin/cars/new` atau `/admin/cars/[id]/edit`.
-4. Optimasi SEO & Produksi:
-   - Metadata dinamis, `sitemap.xml`, `robots.txt`, dan verifikasi build sebelum deployment ke Vercel.
+4. Optimasi SEO & Produksi [SELESAI]:
+   - Metadata dinamis, `sitemap.xml`, `robots.txt`, verifikasi Google Search Console, dan deployment Vercel live.
+
 
