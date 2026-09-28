@@ -45,6 +45,22 @@ export function CarForm({ car, categories }: CarFormProps) {
 
   const isEditing = Boolean(car)
 
+  const categoryItems = categories.map((cat) => ({
+    value: cat.id,
+    label: cat.name,
+  }))
+
+  const transmissionItems = [
+    { value: "Otomatis", label: "Otomatis (Matic)" },
+    { value: "Manual", label: "Manual" },
+  ]
+
+  const statusItems = [
+    { value: "Tersedia", label: "Tersedia (Ready booking)" },
+    { value: "Disewa", label: "Sedang Disewa Pelanggan" },
+    { value: "Perawatan", label: "Dalam Servis / Perawatan" },
+  ]
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files)
@@ -161,12 +177,19 @@ export function CarForm({ car, categories }: CarFormProps) {
             <Label className="text-xs font-medium">
               Kategori Armada
             </Label>
+            <input type="hidden" name="category_id" value={categoryVal} />
             <Select
+              items={categoryItems}
               value={categoryVal}
-              onValueChange={(val) => setCategoryVal(val as string)}
+              onValueChange={(val) => setCategoryVal((val as string) || "")}
             >
               <SelectTrigger className="w-full text-xs">
-                <SelectValue placeholder="Pilih Kategori" />
+                <SelectValue placeholder="Pilih Kategori">
+                  {(val: string | null) => {
+                    const matched = categories.find((c) => c.id === val)
+                    return matched ? matched.name : "Pilih Kategori"
+                  }}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {categories.map((cat) => (
@@ -182,12 +205,16 @@ export function CarForm({ car, categories }: CarFormProps) {
             <Label className="text-xs font-medium">
               Transmisi
             </Label>
+            <input type="hidden" name="transmission" value={transmissionVal} />
             <Select
+              items={transmissionItems}
               value={transmissionVal}
-              onValueChange={(val) => setTransmissionVal(val as string)}
+              onValueChange={(val) => setTransmissionVal((val as string) || "Otomatis")}
             >
               <SelectTrigger className="w-full text-xs">
-                <SelectValue placeholder="Pilih Transmisi" />
+                <SelectValue placeholder="Pilih Transmisi">
+                  {(val: string | null) => (val === "Manual" ? "Manual" : "Otomatis (Matic)")}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Otomatis" className="text-xs">Otomatis (Matic)</SelectItem>
@@ -284,12 +311,21 @@ export function CarForm({ car, categories }: CarFormProps) {
             <Label className="text-xs font-medium">
               Status Ketersediaan
             </Label>
+            <input type="hidden" name="status" value={statusVal} />
             <Select
+              items={statusItems}
               value={statusVal}
-              onValueChange={(val) => setStatusVal(val as string)}
+              onValueChange={(val) => setStatusVal((val as string) || "Tersedia")}
             >
               <SelectTrigger className="w-full text-xs">
-                <SelectValue placeholder="Pilih Status" />
+                <SelectValue placeholder="Pilih Status">
+                  {(val: string | null) => {
+                    if (val === "Tersedia") return "Tersedia (Ready booking)"
+                    if (val === "Disewa") return "Sedang Disewa Pelanggan"
+                    if (val === "Perawatan") return "Dalam Servis / Perawatan"
+                    return "Pilih Status"
+                  }}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Tersedia" className="text-xs">Tersedia (Ready booking)</SelectItem>
