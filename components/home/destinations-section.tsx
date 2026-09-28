@@ -147,7 +147,7 @@ export function DestinationsSection() {
 
                 <div className="mt-auto pt-5">
                   <a
-                    href={`https://wa.me/6282287140724?text=${encodeURIComponent(spot.waMessage)}`}
+                    href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=${encodeURIComponent(spot.waMessage)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between rounded-xl border border-stone-200/80 bg-stone-50 px-3.5 py-2.5 text-xs font-bold text-slate-800 transition-colors hover:border-[#C5A059] hover:bg-[#C5A059]/10 hover:text-[#92400E] dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:text-[#FDE68A]"

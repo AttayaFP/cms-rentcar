@@ -89,7 +89,7 @@ const jsonLd = {
   name: "Nabil Rental Mobil Padang",
   alternateName: ["Nabil Rent Car Padang", "Rental Mobil Padang Nabil"],
   image: "https://www.nabilrentalmobilpadang.biz.id/images/main/og-share.svg",
-  telephone: "+6282287140724",
+  telephone: "+6281276295523",
   url: "https://www.nabilrentalmobilpadang.biz.id",
   priceRange: "Rp 300.000 - Rp 1.500.000",
   currenciesAccepted: "IDR",

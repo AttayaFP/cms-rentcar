@@ -61,7 +61,7 @@ export function CarCard({ car }: CarCardProps) {
   }
 
   const whatsappMessage = `Halo Nabil Rental Mobil Padang, saya ingin booking mobil ${car.name}. Mohon info ketersediaan unit dan persyaratannya. Terima kasih.`
-  const whatsappUrl = `https://wa.me/6282287140724?text=${encodeURIComponent(whatsappMessage)}`
+  const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=${encodeURIComponent(whatsappMessage)}`
 
   return (
     <>

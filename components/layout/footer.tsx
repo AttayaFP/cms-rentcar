@@ -62,19 +62,19 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-2.5 text-sm">
               <Phone className="size-4 shrink-0 text-[#FDE68A] dark:text-[#D4AF37]" />
-              <a href="tel:082287140724" className="hover:text-white">
-                0822-8714-0724
+              <a href="tel:081276295523" className="hover:text-white">
+                0812-7629-5523
               </a>
             </div>
             <div className="flex items-center gap-2.5 text-sm">
               <MessageCircle className="size-4 shrink-0 text-[#25D366]" />
               <a
-                href="https://wa.me/6282287140724"
+                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white"
               >
-                +62 822-8714-0724 (WhatsApp)
+                +62 812-7629-5523 (WhatsApp)
               </a>
             </div>
             <div className="flex items-center gap-2.5 text-sm">

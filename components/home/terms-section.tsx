@@ -172,7 +172,7 @@ export function TermsSection() {
             </div>
 
             <a
-              href={`https://wa.me/6282287140724?text=${encodeURIComponent(waMessage)}`}
+              href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=${encodeURIComponent(waMessage)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-12 shrink-0 items-center gap-2 rounded-xl bg-[#25D366] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-[#25D366]/20 transition-all hover:bg-[#1EBE5D] hover:shadow-lg active:scale-98"

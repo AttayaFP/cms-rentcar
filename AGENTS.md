@@ -43,7 +43,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## 5. Informasi Resmi Bisnis Nabil Rental Mobil Padang
 
 - Nama Resmi Bisnis: Nabil Rental Mobil Padang
-- Nomor WhatsApp Resmi: 0822-8714-0724 (format internasional: `6282287140724`)
+- Nomor WhatsApp Resmi: 0812-7629-5523 (format internasional: `6281276295523`)
 - Alamat Kantor Resmi: Komplek Perumdam III/4, Tunggul Hitam, Kota Padang, Sumatera Barat
 - Koordinat Lokasi Google Maps: `-0.8830518, 100.3591148` (Sewa Toyota HiAce Padang | Rental Mobil Padang.N_Rentcarpadang)
 
