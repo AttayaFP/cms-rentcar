@@ -18,6 +18,7 @@ export default async function AdminEditCarPage({ params }: EditCarPageProps) {
       .from("cars")
       .select("*, images:car_images(*)")
       .eq("id", id)
+      .order("order_index", { referencedTable: "car_images", ascending: true })
       .single(),
     supabase
       .from("categories")
@@ -35,11 +36,11 @@ export default async function AdminEditCarPage({ params }: EditCarPageProps) {
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto">
       <div>
-        <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+        <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
           Edit Armada: {car.name}
         </h2>
-        <p className="mt-1 text-xs font-medium text-slate-500 dark:text-[#94A3B8] sm:text-sm">
-          Perbarui tarif sewa, status unit, atau tambahkan foto dokumentasi baru.
+        <p className="mt-0.5 text-xs text-muted-foreground">
+          Perbarui tarif sewa, status unit, atau kelola foto dokumentasi unit.
         </p>
       </div>
 

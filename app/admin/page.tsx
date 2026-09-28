@@ -24,6 +24,7 @@ export default async function AdminDashboardPage() {
     .from("cars")
     .select("*, images:car_images(*)")
     .order("created_at", { ascending: false })
+    .order("order_index", { referencedTable: "car_images", ascending: true })
 
   const cars: Car[] = carsData || []
 

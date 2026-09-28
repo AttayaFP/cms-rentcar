@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   Dialog,
   DialogContent,
@@ -47,12 +48,13 @@ export function CarsTable({ initialCars }: CarsTableProps) {
   const [isUpdating, setIsUpdating] = useState<string | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [tableError, setTableError] = useState<string | null>(null)
 
   const filteredCars = cars.filter((car) => {
     const matchesSearch =
-      car.name.toLowerCase().includes(search.toLowerCase()) ||
-      car.transmission.toLowerCase().includes(search.toLowerCase()) ||
-      car.fuel_type.toLowerCase().includes(search.toLowerCase())
+      (car.name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (car.transmission || "").toLowerCase().includes(search.toLowerCase()) ||
+      (car.fuel_type || "").toLowerCase().includes(search.toLowerCase())
 
     const matchesStatus =
       statusFilter === "all" ? true : car.status === statusFilter
@@ -65,11 +67,14 @@ export function CarsTable({ initialCars }: CarsTableProps) {
     newStatus: "Tersedia" | "Disewa" | "Perawatan"
   ) => {
     setIsUpdating(id)
+    setTableError(null)
     const res = await updateCarStatusAction(id, newStatus)
     if (res.success) {
       setCars((prev) =>
         prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
       )
+    } else {
+      setTableError(res.error || "Gagal mengubah status unit")
     }
     setIsUpdating(null)
   }
@@ -77,10 +82,13 @@ export function CarsTable({ initialCars }: CarsTableProps) {
   const confirmDelete = async () => {
     if (!deleteTarget) return
     setIsDeleting(true)
+    setTableError(null)
     const res = await deleteCarAction(deleteTarget.id)
     if (res.success) {
       setCars((prev) => prev.filter((c) => c.id !== deleteTarget.id))
       setDeleteTarget(null)
+    } else {
+      setTableError(res.error || "Gagal menghapus unit armada")
     }
     setIsDeleting(false)
   }
@@ -118,6 +126,16 @@ export function CarsTable({ initialCars }: CarsTableProps) {
 
   return (
     <div className="flex flex-col gap-4">
+      {tableError && (
+        <Alert variant="destructive">
+          <AlertTriangle className="size-4" />
+          <AlertTitle className="text-xs font-semibold">Terjadi Kesalahan</AlertTitle>
+          <AlertDescription className="text-xs mt-0.5">
+            {tableError}
+          </AlertDescription>
+        </Alert>
+      )}
+
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Tabs
           value={statusFilter}

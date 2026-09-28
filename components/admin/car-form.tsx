@@ -4,9 +4,9 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { createCarAction, updateCarAction } from "@/actions/cars"
-import { Car, Category } from "@/types/database"
-import { UploadCloud, CheckCircle2, ArrowLeft, Loader2, Sparkles, AlertCircle } from "lucide-react"
+import { createCarAction, updateCarAction, deleteCarImageAction } from "@/actions/cars"
+import { Car, Category, CarImage } from "@/types/database"
+import { UploadCloud, CheckCircle2, ArrowLeft, Loader2, Sparkles, AlertCircle, Trash2, X } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -34,8 +34,12 @@ export function CarForm({ car, categories }: CarFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [previewUrls, setPreviewUrls] = useState<string[]>([])
+  const [existingImages, setExistingImages] = useState<CarImage[]>(car?.images || [])
+  const [deletingImageId, setDeletingImageId] = useState<string | null>(null)
   const [isFeatured, setIsFeatured] = useState<boolean>(car?.is_featured ?? true)
-  const [categoryVal, setCategoryVal] = useState<string>(car?.category_id || (categories[0]?.id ?? ""))
+  const [categoryVal, setCategoryVal] = useState<string>(
+    car?.category_id || (categories.length > 0 ? categories[0].id : "")
+  )
   const [transmissionVal, setTransmissionVal] = useState<string>(car?.transmission || "Otomatis")
   const [statusVal, setStatusVal] = useState<string>(car?.status || "Tersedia")
 
@@ -44,10 +48,27 @@ export function CarForm({ car, categories }: CarFormProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files)
-      setSelectedFiles(filesArray)
+      setSelectedFiles((prev) => [...prev, ...filesArray])
       const urls = filesArray.map((f) => URL.createObjectURL(f))
-      setPreviewUrls(urls)
+      setPreviewUrls((prev) => [...prev, ...urls])
     }
+  }
+
+  const handleRemoveSelectedFile = (index: number) => {
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index))
+    setPreviewUrls((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  const handleDeleteExistingImage = async (imageId: string, imageUrl: string) => {
+    if (!car) return
+    setDeletingImageId(imageId)
+    const res = await deleteCarImageAction(imageId, imageUrl, car.id)
+    if (res.success) {
+      setExistingImages((prev) => prev.filter((img) => img.id !== imageId))
+    } else {
+      setErrorMessage(res.error || "Gagal menghapus foto")
+    }
+    setDeletingImageId(null)
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -340,21 +361,21 @@ export function CarForm({ car, categories }: CarFormProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-5 flex flex-col gap-4">
-          {car?.images && car.images.length > 0 && (
+          {existingImages.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xs font-medium text-foreground">
                   Foto Tersimpan Saat Ini
                 </span>
                 <Badge variant="secondary" className="text-[10px]">
-                  {car.images.length} foto
+                  {existingImages.length} foto
                 </Badge>
               </div>
               <div className="flex gap-2.5 overflow-x-auto pb-2">
-                {car.images.map((img) => (
+                {existingImages.map((img) => (
                   <div
                     key={img.id}
-                    className="relative size-20 shrink-0 overflow-hidden rounded-md border border-border/80 bg-muted"
+                    className="group relative size-20 shrink-0 overflow-hidden rounded-md border border-border/80 bg-muted"
                   >
                     <Image
                       src={img.image_url}
@@ -363,6 +384,19 @@ export function CarForm({ car, categories }: CarFormProps) {
                       sizes="80px"
                       className="object-cover"
                     />
+                    <button
+                      type="button"
+                      disabled={deletingImageId === img.id}
+                      onClick={() => handleDeleteExistingImage(img.id, img.image_url)}
+                      className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-background/80 text-foreground shadow-xs transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50"
+                      title="Hapus foto ini"
+                    >
+                      {deletingImageId === img.id ? (
+                        <Loader2 className="size-3 animate-spin" />
+                      ) : (
+                        <Trash2 className="size-3" />
+                      )}
+                    </button>
                   </div>
                 ))}
               </div>
@@ -382,7 +416,7 @@ export function CarForm({ car, categories }: CarFormProps) {
               multiple
               accept="image/*"
               onChange={handleFileChange}
-              className="mt-3 text-xs text-muted-foreground file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-primary file:text-primary-foreground hover:file:opacity-90"
+              className="mt-3 text-xs text-muted-foreground file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
             />
           </div>
 
@@ -400,7 +434,7 @@ export function CarForm({ car, categories }: CarFormProps) {
                 {previewUrls.map((url, i) => (
                   <div
                     key={i}
-                    className="relative size-20 shrink-0 overflow-hidden rounded-md border-2 border-primary bg-muted"
+                    className="group relative size-20 shrink-0 overflow-hidden rounded-md border-2 border-primary bg-muted"
                   >
                     <Image
                       src={url}
@@ -409,6 +443,14 @@ export function CarForm({ car, categories }: CarFormProps) {
                       sizes="80px"
                       className="object-cover"
                     />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveSelectedFile(i)}
+                      className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-background/80 text-foreground shadow-xs transition-colors hover:bg-destructive hover:text-destructive-foreground"
+                      title="Batalkan foto ini"
+                    >
+                      <X className="size-3" />
+                    </button>
                   </div>
                 ))}
               </div>

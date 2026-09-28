@@ -17,10 +17,10 @@ export default async function AdminNewCarPage() {
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto">
       <div>
-        <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+        <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
           Tambah Armada Baru
         </h2>
-        <p className="mt-1 text-xs font-medium text-slate-500 dark:text-[#94A3B8] sm:text-sm">
+        <p className="mt-0.5 text-xs text-muted-foreground">
           Masukkan spesifikasi kendaraan, tentukan tarif sewa resmi, dan unggah foto armada.
         </p>
       </div>

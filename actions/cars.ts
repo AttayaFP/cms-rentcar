@@ -88,6 +88,7 @@ export async function createCarAction(formData: FormData) {
   }
 
   revalidatePath("/")
+  revalidatePath("/admin")
   revalidatePath("/admin/cars")
   return { success: true, carId: newCar.id }
 }
@@ -170,12 +171,50 @@ export async function updateCarAction(id: string, formData: FormData) {
   }
 
   revalidatePath("/")
+  revalidatePath("/admin")
   revalidatePath("/admin/cars")
+  revalidatePath(`/admin/cars/${id}/edit`)
+  return { success: true }
+}
+
+export async function deleteCarImageAction(imageId: string, imageUrl: string, carId: string) {
+  const supabase = await createAdminClient()
+
+  try {
+    const url = new URL(imageUrl)
+    const marker = `/${STORAGE_BUCKET}/`
+    const index = url.pathname.indexOf(marker)
+    if (index !== -1) {
+      const storagePath = decodeURIComponent(url.pathname.substring(index + marker.length))
+      await supabase.storage.from(STORAGE_BUCKET).remove([storagePath])
+    }
+  } catch {
+  }
+
+  const { error } = await supabase.from("car_images").delete().eq("id", imageId)
+
+  if (error) {
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath("/")
+  revalidatePath("/admin")
+  revalidatePath("/admin/cars")
+  revalidatePath(`/admin/cars/${carId}/edit`)
   return { success: true }
 }
 
 export async function deleteCarAction(id: string) {
   const supabase = await createAdminClient()
+
+  const { data: storageFiles } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .list(`cars/${id}`)
+
+  if (storageFiles && storageFiles.length > 0) {
+    const filePaths = storageFiles.map((f) => `cars/${id}/${f.name}`)
+    await supabase.storage.from(STORAGE_BUCKET).remove(filePaths)
+  }
 
   await supabase.from("car_images").delete().eq("car_id", id)
   const { error } = await supabase.from("cars").delete().eq("id", id)
@@ -185,6 +224,7 @@ export async function deleteCarAction(id: string) {
   }
 
   revalidatePath("/")
+  revalidatePath("/admin")
   revalidatePath("/admin/cars")
   return { success: true }
 }
@@ -205,6 +245,7 @@ export async function updateCarStatusAction(
   }
 
   revalidatePath("/")
+  revalidatePath("/admin")
   revalidatePath("/admin/cars")
   return { success: true }
 }
