@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Car, PlusCircle, ExternalLink, LogOut } from "lucide-react"
+import { LayoutDashboard, Car, PlusCircle, ExternalLink, LogOut, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -28,6 +28,12 @@ export function AdminSidebar() {
       label: "Tambah Mobil",
       href: "/admin/cars/new",
       icon: PlusCircle,
+      exact: true,
+    },
+    {
+      label: "Pengaturan",
+      href: "/admin/settings",
+      icon: Settings,
       exact: true,
     },
   ]

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { PlusCircle, ExternalLink, Car, LayoutDashboard, LogOut } from "lucide-react"
+import { PlusCircle, ExternalLink, Car, LayoutDashboard, LogOut, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/common/theme-toggle"
 import { logoutAdminAction } from "@/actions/auth"
@@ -19,6 +19,9 @@ export function AdminHeader() {
   const pathname = usePathname()
 
   const getPageInfo = () => {
+    if (pathname === "/admin/settings") {
+      return { title: "Pengaturan Kontak & Bisnis", category: "Sistem", categoryHref: "/admin" }
+    }
     if (pathname === "/admin/cars/new") {
       return { title: "Tambah Mobil Baru", category: "Armada", categoryHref: "/admin/cars" }
     }
@@ -94,6 +97,13 @@ export function AdminHeader() {
             title="Armada"
           >
             <Car className="size-4" />
+          </Link>
+          <Link
+            href="/admin/settings"
+            className="flex size-8 items-center justify-center rounded-lg border border-border bg-background text-foreground"
+            title="Pengaturan"
+          >
+            <Settings className="size-4" />
           </Link>
           <Link
             href="/"

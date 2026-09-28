@@ -77,7 +77,7 @@ export function LocationSection() {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-900 dark:text-white">Hotline Reservasi</p>
-                    <p className="text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">0812-7629-5523</p>
+                    <p className="text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">+62 812-7629-5523</p>
                   </div>
                 </div>
               </div>

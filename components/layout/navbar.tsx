@@ -155,11 +155,11 @@ export function Navbar() {
               </a>
 
               <a
-                href="tel:081276295523"
+                href="tel:+6281276295523"
                 className="flex h-12 items-center justify-center gap-2 rounded-xl border border-stone-300 bg-stone-50 text-sm font-bold text-slate-900 dark:border-white/15 dark:bg-white/5 dark:text-white"
               >
                 <Phone className="size-4 text-[#C5A059]" />
-                <span>0812-7629-5523</span>
+                <span>+62 812-7629-5523</span>
               </a>
             </div>
           </div>
