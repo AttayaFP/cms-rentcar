@@ -1,7 +1,17 @@
 import Image from "next/image"
 import { MapPin, Phone, MessageCircle, Clock, ShieldCheck } from "lucide-react"
 
-export function Footer() {
+interface FooterProps {
+  whatsappNumber?: string
+  whatsappDisplay?: string
+  address?: string
+}
+
+export function Footer({
+  whatsappNumber = "6281276295523",
+  whatsappDisplay = "+62 812-7629-5523",
+  address = "Komplek Perumdam III/4, Tunggul Hitam, Kota Padang, Sumatera Barat",
+}: FooterProps) {
   return (
     <footer className="border-t border-slate-200 bg-slate-900 text-slate-300 transition-colors dark:border-white/10 dark:bg-[#05080E] dark:text-[#94A3B8]">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -58,23 +68,23 @@ export function Footer() {
             </h3>
             <div className="flex items-start gap-2.5 text-sm">
               <MapPin className="mt-0.5 size-4 shrink-0 text-[#FDE68A] dark:text-[#D4AF37]" />
-              <span>Komplek Perumdam III/4, Tunggul Hitam, Kota Padang, Sumatera Barat</span>
+              <span>{address}</span>
             </div>
             <div className="flex items-center gap-2.5 text-sm">
               <Phone className="size-4 shrink-0 text-[#FDE68A] dark:text-[#D4AF37]" />
-              <a href="tel:+6281276295523" className="hover:text-white">
-                +62 812-7629-5523
+              <a href={`tel:+${whatsappNumber}`} className="hover:text-white">
+                {whatsappDisplay}
               </a>
             </div>
             <div className="flex items-center gap-2.5 text-sm">
               <MessageCircle className="size-4 shrink-0 text-[#25D366]" />
               <a
-                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}`}
+                href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white"
               >
-                +62 812-7629-5523 (WhatsApp)
+                {whatsappDisplay} (WhatsApp)
               </a>
             </div>
             <div className="flex items-center gap-2.5 text-sm">

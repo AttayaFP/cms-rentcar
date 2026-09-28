@@ -2,8 +2,12 @@
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react"
 
-export function FloatingWhatsApp() {
-  const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20konsultasi%20sewa%20mobil.`
+interface FloatingWhatsAppProps {
+  whatsappNumber?: string
+}
+
+export function FloatingWhatsApp({ whatsappNumber = "6281276295523" }: FloatingWhatsAppProps) {
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20konsultasi%20sewa%20mobil.`
 
   return (
     <aside aria-label="WhatsApp Concierge" className="fixed bottom-6 right-5 z-40 hidden md:block">

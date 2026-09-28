@@ -1,9 +1,19 @@
 import Image from "next/image"
 import { MapPin, Navigation, Clock, ShieldCheck, Phone } from "lucide-react"
 
-export function LocationSection() {
+interface LocationSectionProps {
+  whatsappNumber?: string
+  whatsappDisplay?: string
+  address?: string
+}
+
+export function LocationSection({
+  whatsappNumber = "6281276295523",
+  whatsappDisplay = "+62 812-7629-5523",
+  address = "Komplek Perumdam III/4, Tunggul Hitam, Kota Padang",
+}: LocationSectionProps) {
   const mapsDirectUrl = "https://www.google.com/maps/place/SEWA+TOYOTA+HIACE+PADANG+%7C%7C+RENTAL+MOBIL+PADANG.N_RENTCARPADANG/@-0.8830518,100.3591148,19z"
-  const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20tanya%20titik%20penjemputan%20atau%20alamat%20kantor.`
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20tanya%20titik%20penjemputan%20atau%20alamat%20kantor.`
 
   return (
     <section id="lokasi" className="relative py-14 sm:py-20 lg:py-24 bg-[#F5F4F0] dark:bg-[#06080C]">
@@ -47,7 +57,7 @@ export function LocationSection() {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-900 dark:text-white">Alamat Workshop &amp; Pool</p>
-                    <p className="text-xs text-slate-600 dark:text-[#94A3B8]">Komplek Perumdam III/4, Tunggul Hitam, Kota Padang</p>
+                    <p className="text-xs text-slate-600 dark:text-[#94A3B8]">{address}</p>
                   </div>
                 </div>
 
@@ -77,7 +87,7 @@ export function LocationSection() {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-900 dark:text-white">Hotline Reservasi</p>
-                    <p className="text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">+62 812-7629-5523</p>
+                    <p className="text-xs font-bold text-[#92400E] dark:text-[#FDE68A]">{whatsappDisplay}</p>
                   </div>
                 </div>
               </div>

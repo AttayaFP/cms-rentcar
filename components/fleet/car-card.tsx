@@ -8,9 +8,10 @@ import { CarGalleryModal } from "@/components/fleet/car-gallery-modal"
 
 interface CarCardProps {
   car: Car
+  whatsappNumber?: string
 }
 
-export function CarCard({ car }: CarCardProps) {
+export function CarCard({ car, whatsappNumber = "6281276295523" }: CarCardProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const touchStartX = useRef<number | null>(null)
@@ -61,7 +62,7 @@ export function CarCard({ car }: CarCardProps) {
   }
 
   const whatsappMessage = `Halo Nabil Rental Mobil Padang, saya ingin booking mobil ${car.name}. Mohon info ketersediaan unit dan persyaratannya. Terima kasih.`
-  const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=${encodeURIComponent(whatsappMessage)}`
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 
   return (
     <>

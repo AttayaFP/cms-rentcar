@@ -8,7 +8,15 @@ import { useLenis } from "lenis/react"
 import { Menu, X, Phone } from "lucide-react"
 import { ThemeToggle } from "@/components/common/theme-toggle"
 
-export function Navbar() {
+interface NavbarProps {
+  whatsappNumber?: string
+  whatsappDisplay?: string
+}
+
+export function Navbar({
+  whatsappNumber = "6281276295523",
+  whatsappDisplay = "+62 812-7629-5523",
+}: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -90,7 +98,7 @@ export function Navbar() {
           <ThemeToggle />
 
           <a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20tanya%20ketersediaan%20sewa%20mobil.`}
+            href={`https://wa.me/${whatsappNumber}?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20tanya%20ketersediaan%20sewa%20mobil.`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-10 items-center gap-2 rounded-xl bg-[#25D366] px-4 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-[#25D366]/25 transition-transform hover:scale-105 active:scale-95"
@@ -139,7 +147,7 @@ export function Navbar() {
 
             <div className="mt-4 flex flex-col gap-3 border-t border-stone-200 pt-4 dark:border-white/10">
               <a
-                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20sewa%20mobil.`}
+                href={`https://wa.me/${whatsappNumber}?text=Halo%20Nabil%20Rental%20Padang%2C%20saya%20ingin%20sewa%20mobil.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-12 items-center justify-center gap-2.5 rounded-xl bg-[#25D366] text-sm font-bold text-white shadow-md shadow-[#25D366]/25"
@@ -155,11 +163,11 @@ export function Navbar() {
               </a>
 
               <a
-                href="tel:+6281276295523"
+                href={`tel:+${whatsappNumber}`}
                 className="flex h-12 items-center justify-center gap-2 rounded-xl border border-stone-300 bg-stone-50 text-sm font-bold text-slate-900 dark:border-white/15 dark:bg-white/5 dark:text-white"
               >
                 <Phone className="size-4 text-[#C5A059]" />
-                <span>+62 812-7629-5523</span>
+                <span>{whatsappDisplay}</span>
               </a>
             </div>
           </div>
