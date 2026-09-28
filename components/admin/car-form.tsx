@@ -3,10 +3,14 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import Link from "next/link"
 import { createCarAction, updateCarAction } from "@/actions/cars"
 import { Car, Category } from "@/types/database"
-import { UploadCloud, CheckCircle2, ArrowLeft, Loader2 } from "lucide-react"
-import Link from "next/link"
+import { UploadCloud, CheckCircle2, ArrowLeft, Loader2, Sparkles } from "lucide-react"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 
 interface CarFormProps {
   car?: Car
@@ -70,55 +74,56 @@ export function CarForm({ car, categories }: CarFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-4xl">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-4xl">
       <div className="flex items-center justify-between">
         <Link
           href="/admin/cars"
-          className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
-          <ArrowLeft className="size-4" />
+          <ArrowLeft className="size-3.5" />
           <span>Kembali ke Daftar Armada</span>
         </Link>
       </div>
 
       {errorMessage && (
-        <div className="rounded-2xl border border-rose-300 bg-rose-50 p-4 text-xs font-bold text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/50 dark:text-rose-400">
+        <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-3.5 text-xs font-medium text-destructive">
           {errorMessage}
         </div>
       )}
 
-      <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-[#0B0F17] sm:p-8 flex flex-col gap-6">
-        <h3 className="text-base font-bold text-slate-900 dark:text-white border-b border-stone-200 pb-3 dark:border-white/10">
-          1. Identitas &amp; Spesifikasi Mobil
-        </h3>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <Card>
+        <CardHeader className="p-5 border-b border-border/80">
+          <CardTitle className="text-sm font-semibold">1. Identitas &amp; Spesifikasi Mobil</CardTitle>
+          <CardDescription className="text-xs">
+            Informasi umum yang tampil pada kartu katalog mobil di halaman utama.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5 sm:col-span-2">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-              Nama Lengkap Unit Mobil <span className="text-rose-500">*</span>
+            <label className="text-xs font-medium text-foreground">
+              Nama Lengkap Unit Mobil <span className="text-destructive">*</span>
             </label>
-            <input
+            <Input
               type="text"
               name="name"
               required
               defaultValue={car?.name || ""}
               placeholder="Contoh: Toyota Innova Reborn 2.4 G Diesel"
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+            <label className="text-xs font-medium text-foreground">
               Kategori Armada
             </label>
             <select
               name="category_id"
               defaultValue={car?.category_id || ""}
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring text-foreground"
             >
-              <option value="">Pilih Kategori</option>
+              <option value="" className="bg-popover text-popover-foreground">Pilih Kategori</option>
               {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
+                <option key={cat.id} value={cat.id} className="bg-popover text-popover-foreground">
                   {cat.name}
                 </option>
               ))}
@@ -126,111 +131,110 @@ export function CarForm({ car, categories }: CarFormProps) {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+            <label className="text-xs font-medium text-foreground">
               Transmisi
             </label>
             <select
               name="transmission"
               defaultValue={car?.transmission || "Otomatis"}
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring text-foreground"
             >
-              <option value="Otomatis">Otomatis (Matic)</option>
-              <option value="Manual">Manual</option>
+              <option value="Otomatis" className="bg-popover text-popover-foreground">Otomatis (Matic)</option>
+              <option value="Manual" className="bg-popover text-popover-foreground">Manual</option>
             </select>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+            <label className="text-xs font-medium text-foreground">
               Bahan Bakar
             </label>
-            <input
+            <Input
               type="text"
               name="fuel_type"
               defaultValue={car?.fuel_type || "Bensin"}
               placeholder="Contoh: Solar Dex / Bensin"
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+              <label className="text-xs font-medium text-foreground">
                 Jumlah Kursi
               </label>
-              <input
+              <Input
                 type="number"
                 name="seats"
                 min="1"
                 max="25"
                 defaultValue={car?.seats || 7}
-                className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+              <label className="text-xs font-medium text-foreground">
                 Koper
               </label>
-              <input
+              <Input
                 type="number"
                 name="luggage"
                 min="0"
                 max="15"
                 defaultValue={car?.luggage || 3}
-                className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
               />
             </div>
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        <h3 className="text-base font-bold text-slate-900 dark:text-white border-b border-stone-200 pb-3 pt-4 dark:border-white/10">
-          2. Penetapan Tarif Sewa Resmi
-        </h3>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <Card>
+        <CardHeader className="p-5 border-b border-border/80">
+          <CardTitle className="text-sm font-semibold">2. Tarif Sewa Resmi &amp; Status</CardTitle>
+          <CardDescription className="text-xs">
+            Penetapan harga harian dan ketersediaan operasional unit saat ini.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+            <label className="text-xs font-medium text-foreground">
               Tarif Lepas Kunci (Rp / 24 Jam)
             </label>
-            <input
+            <Input
               type="number"
               name="price_self_drive"
               step="50000"
               defaultValue={car?.price_self_drive ?? 0}
               placeholder="0 jika khusus dengan supir"
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
             />
-            <span className="text-[10px] text-slate-500">
-              Isi 0 jika mobil ini tidak disewakan lepas kunci (misal HiAce).
+            <span className="text-[11px] text-muted-foreground">
+              Ketik 0 bila tidak menerima sewa lepas kunci (misal HiAce Luxury).
             </span>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-              Tarif + Driver (Rp / Hari) <span className="text-rose-500">*</span>
+            <label className="text-xs font-medium text-foreground">
+              Tarif + Driver (Rp / Hari) <span className="text-destructive">*</span>
             </label>
-            <input
+            <Input
               type="number"
               name="price_with_driver"
               step="50000"
               required
               defaultValue={car?.price_with_driver ?? 0}
               placeholder="Contoh: 650000"
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+            <label className="text-xs font-medium text-foreground">
               Status Ketersediaan
             </label>
             <select
               name="status"
               defaultValue={car?.status || "Tersedia"}
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring text-foreground"
             >
-              <option value="Tersedia">Tersedia (Ready untuk booking)</option>
-              <option value="Disewa">Sedang Disewa Pelanggan</option>
-              <option value="Perawatan">Dalam Servis / Perawatan</option>
+              <option value="Tersedia" className="bg-popover text-popover-foreground">Tersedia (Ready booking)</option>
+              <option value="Disewa" className="bg-popover text-popover-foreground">Sedang Disewa Pelanggan</option>
+              <option value="Perawatan" className="bg-popover text-popover-foreground">Dalam Servis / Perawatan</option>
             </select>
           </div>
 
@@ -241,37 +245,41 @@ export function CarForm({ car, categories }: CarFormProps) {
               name="is_featured"
               value="true"
               defaultChecked={car?.is_featured ?? true}
-              className="size-4 rounded accent-[#C5A059]"
+              className="size-4 rounded border-input text-primary focus:ring-ring"
             />
             <label
               htmlFor="is_featured"
-              className="text-xs font-bold text-slate-700 dark:text-slate-300"
+              className="text-xs font-medium text-foreground flex items-center gap-1.5 cursor-pointer"
             >
-              Tampilkan sebagai Armada Favorit / Unggulan
+              <Sparkles className="size-3.5 text-muted-foreground" />
+              <span>Tampilkan sebagai Unit Unggulan / Favorit</span>
             </label>
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        <h3 className="text-base font-bold text-slate-900 dark:text-white border-b border-stone-200 pb-3 pt-4 dark:border-white/10">
-          3. Fitur, Fasilitas, &amp; Deskripsi
-        </h3>
-
-        <div className="flex flex-col gap-4">
+      <Card>
+        <CardHeader className="p-5 border-b border-border/80">
+          <CardTitle className="text-sm font-semibold">3. Fitur, Fasilitas &amp; Keterangan</CardTitle>
+          <CardDescription className="text-xs">
+            Fasilitas kabin dan kenyamanan untuk menarik minat calon penyewa.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-5 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+            <label className="text-xs font-medium text-foreground">
               Fasilitas Utama (Pisahkan dengan koma)
             </label>
-            <input
+            <Input
               type="text"
               name="features"
               defaultValue={car?.features ? car.features.join(", ") : ""}
               placeholder="Contoh: AC Double Blower, Audio Touchscreen, Kamera Mundur, Captain Seat"
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+            <label className="text-xs font-medium text-foreground">
               Deskripsi Singkat Kendaraan
             </label>
             <textarea
@@ -279,26 +287,35 @@ export function CarForm({ car, categories }: CarFormProps) {
               rows={3}
               defaultValue={car?.description || ""}
               placeholder="Catatan keunggulan unit mobil, kenyamanan rute Bukittinggi / Mandeh..."
-              className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-xs font-semibold text-slate-900 outline-none transition-colors focus:border-[#C5A059] focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+              className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring text-foreground placeholder:text-muted-foreground resize-none"
             />
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        <h3 className="text-base font-bold text-slate-900 dark:text-white border-b border-stone-200 pb-3 pt-4 dark:border-white/10">
-          4. Unggah Foto Mobil (Multi-Gambar)
-        </h3>
-
-        <div className="flex flex-col gap-4">
+      <Card>
+        <CardHeader className="p-5 border-b border-border/80">
+          <CardTitle className="text-sm font-semibold">4. Dokumentasi &amp; Foto Unit</CardTitle>
+          <CardDescription className="text-xs">
+            Unggah foto eksterior, kabin depan, dan baris penumpang dalam format WebP/JPG/PNG.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-5 flex flex-col gap-4">
           {car?.images && car.images.length > 0 && (
             <div>
-              <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-2">
-                Foto yang Sudah Ada di Sistem ({car.images.length}):
-              </span>
-              <div className="flex gap-3 overflow-x-auto pb-2">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-medium text-foreground">
+                  Foto Tersimpan Saat Ini
+                </span>
+                <Badge variant="secondary" className="text-[10px]">
+                  {car.images.length} foto
+                </Badge>
+              </div>
+              <div className="flex gap-2.5 overflow-x-auto pb-2">
                 {car.images.map((img) => (
                   <div
                     key={img.id}
-                    className="relative size-20 shrink-0 overflow-hidden rounded-xl border border-stone-200 dark:border-white/10"
+                    className="relative size-20 shrink-0 overflow-hidden rounded-md border border-border/80 bg-muted"
                   >
                     <Image
                       src={img.image_url}
@@ -313,33 +330,38 @@ export function CarForm({ car, categories }: CarFormProps) {
             </div>
           )}
 
-          <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 p-8 text-center dark:border-white/20">
-            <UploadCloud className="size-8 text-[#C5A059]" />
-            <span className="mt-3 text-xs font-bold text-slate-800 dark:text-white">
+          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border/90 p-8 text-center bg-muted/20">
+            <UploadCloud className="size-7 text-muted-foreground" />
+            <span className="mt-2.5 text-xs font-semibold text-foreground">
               Pilih Foto Mobil dari Komputer / HP
             </span>
-            <span className="text-[11px] text-slate-500 dark:text-slate-400">
-              Bisa pilih lebih dari satu foto sekaligus (eksterior, kabin, dashboard)
+            <span className="text-[11px] text-muted-foreground mt-0.5">
+              Bisa pilih lebih dari satu file secara bersamaan (Multi-Image)
             </span>
             <input
               type="file"
               multiple
               accept="image/*"
               onChange={handleFileChange}
-              className="mt-4 text-xs"
+              className="mt-3 text-xs text-muted-foreground file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-primary file:text-primary-foreground hover:file:opacity-90"
             />
           </div>
 
           {previewUrls.length > 0 && (
             <div>
-              <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-2">
-                Pratinjau Foto Baru yang Akan Diunggah ({previewUrls.length}):
-              </span>
-              <div className="flex gap-3 overflow-x-auto pb-2">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-medium text-foreground">
+                  Foto Baru yang Akan Diunggah
+                </span>
+                <Badge variant="outline" className="text-[10px]">
+                  {previewUrls.length} file dipilih
+                </Badge>
+              </div>
+              <div className="flex gap-2.5 overflow-x-auto pb-2">
                 {previewUrls.map((url, i) => (
                   <div
                     key={i}
-                    className="relative size-20 shrink-0 overflow-hidden rounded-xl border-2 border-[#C5A059]"
+                    className="relative size-20 shrink-0 overflow-hidden rounded-md border-2 border-primary bg-muted"
                   >
                     <Image
                       src={url}
@@ -353,33 +375,33 @@ export function CarForm({ car, categories }: CarFormProps) {
               </div>
             </div>
           )}
-        </div>
+        </CardContent>
+      </Card>
 
-        <div className="mt-6 flex items-center justify-end gap-3 border-t border-stone-200 pt-6 dark:border-white/10">
-          <Link
-            href="/admin/cars"
-            className="rounded-xl border border-stone-200 px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-stone-50 dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/5"
-          >
+      <div className="flex items-center justify-end gap-3 pt-2">
+        <Button variant="outline" asChild size="sm">
+          <Link href="/admin/cars">
             Batal
           </Link>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#C5A059] to-[#9A7B38] px-6 py-2.5 text-xs font-bold text-slate-950 shadow-md transition-all hover:opacity-95 active:scale-98 disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="size-4 animate-spin" />
-                <span>Menyimpan ke Database...</span>
-              </>
-            ) : (
-              <>
-                <CheckCircle2 className="size-4" />
-                <span>{isEditing ? "Simpan Perubahan Unit" : "Terbitkan Mobil Baru"}</span>
-              </>
-            )}
-          </button>
-        </div>
+        </Button>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          size="sm"
+          className="min-w-[140px]"
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="size-3.5 animate-spin" />
+              <span>Menyimpan...</span>
+            </>
+          ) : (
+            <>
+              <CheckCircle2 className="size-3.5" />
+              <span>{isEditing ? "Simpan Perubahan" : "Terbitkan Mobil"}</span>
+            </>
+          )}
+        </Button>
       </div>
     </form>
   )

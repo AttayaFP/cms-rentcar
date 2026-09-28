@@ -5,7 +5,18 @@ import Image from "next/image"
 import Link from "next/link"
 import { Car } from "@/types/database"
 import { updateCarStatusAction, deleteCarAction } from "@/actions/cars"
-import { Edit3, Trash2, CheckCircle2, AlertCircle, Wrench, Search } from "lucide-react"
+import { Edit3, Trash2, Search } from "lucide-react"
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+} from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 interface CarsTableProps {
   initialCars: Car[]
@@ -14,11 +25,20 @@ interface CarsTableProps {
 export function CarsTable({ initialCars }: CarsTableProps) {
   const [cars, setCars] = useState<Car[]>(initialCars)
   const [search, setSearch] = useState("")
+  const [statusFilter, setStatusFilter] = useState<string>("all")
   const [isUpdating, setIsUpdating] = useState<string | null>(null)
 
-  const filteredCars = cars.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase())
-  )
+  const filteredCars = cars.filter((car) => {
+    const matchesSearch =
+      car.name.toLowerCase().includes(search.toLowerCase()) ||
+      car.transmission.toLowerCase().includes(search.toLowerCase()) ||
+      car.fuel_type.toLowerCase().includes(search.toLowerCase())
+
+    const matchesStatus =
+      statusFilter === "all" ? true : car.status === statusFilter
+
+    return matchesSearch && matchesStatus
+  })
 
   const handleStatusChange = async (
     id: string,
@@ -35,7 +55,7 @@ export function CarsTable({ initialCars }: CarsTableProps) {
   }
 
   const handleDelete = async (id: string, name: string) => {
-    if (!window.confirm(`Yakin ingin menghapus unit ${name}? Tindakan ini tidak dapat dibatalkan.`)) {
+    if (!window.confirm(`Hapus unit ${name} dari daftar armada?`)) {
       return
     }
     setIsUpdating(id)
@@ -46,135 +66,201 @@ export function CarsTable({ initialCars }: CarsTableProps) {
     setIsUpdating(null)
   }
 
+  const filterTabs = [
+    { id: "all", label: "Semua Unit", count: cars.length },
+    {
+      id: "Tersedia",
+      label: "Tersedia",
+      count: cars.filter((c) => c.status === "Tersedia").length,
+    },
+    {
+      id: "Disewa",
+      label: "Disewa",
+      count: cars.filter((c) => c.status === "Disewa").length,
+    },
+    {
+      id: "Perawatan",
+      label: "Servis",
+      count: cars.filter((c) => c.status === "Perawatan").length,
+    },
+  ]
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "Tersedia":
+        return (
+          <Badge variant="success" className="gap-1.5 font-semibold">
+            <span className="size-1.5 rounded-full bg-emerald-500" />
+            <span>Tersedia</span>
+          </Badge>
+        )
+      case "Disewa":
+        return (
+          <Badge variant="warning" className="gap-1.5 font-semibold">
+            <span className="size-1.5 rounded-full bg-amber-500" />
+            <span>Disewa</span>
+          </Badge>
+        )
+      default:
+        return (
+          <Badge variant="outline" className="gap-1.5 font-semibold text-muted-foreground">
+            <span className="size-1.5 rounded-full bg-muted-foreground" />
+            <span>Perawatan</span>
+          </Badge>
+        )
+    }
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-white px-4 py-2.5 dark:border-white/10 dark:bg-[#0B0F17]">
-        <Search className="size-4 text-slate-400" />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Cari armada berdasarkan nama mobil..."
-          className="w-full bg-transparent text-xs font-medium text-slate-900 outline-none placeholder:text-slate-400 dark:text-white"
-        />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-1.5 rounded-lg border border-border/80 bg-muted/40 p-1 w-fit">
+          {filterTabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setStatusFilter(tab.id)}
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${
+                statusFilter === tab.id
+                  ? "bg-background text-foreground shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <span>{tab.label}</span>
+              <span className="rounded-full bg-muted px-1.5 py-0.2 text-[10px] text-muted-foreground">
+                {tab.count}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <div className="relative w-full sm:w-72">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Cari armada, transmisi..."
+            className="pl-8 text-xs"
+          />
+        </div>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm dark:border-white/10 dark:bg-[#0B0F17]">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="border-b border-stone-200 bg-stone-50/50 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-white/10 dark:bg-white/5 dark:text-slate-400">
-              <tr>
-                <th className="py-3.5 pl-4">Foto & Unit</th>
-                <th className="py-3.5">Spesifikasi</th>
-                <th className="py-3.5">Lepas Kunci</th>
-                <th className="py-3.5">+ Driver</th>
-                <th className="py-3.5">Ubah Status</th>
-                <th className="py-3.5 pr-4 text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100 dark:divide-white/5">
-              {filteredCars.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="py-12 text-center text-slate-500">
-                    Tidak ada unit mobil yang cocok dengan pencarian.
-                  </td>
-                </tr>
-              ) : (
-                filteredCars.map((car) => {
-                  const img = car.images?.[0]?.image_url || "/images/main/car-placeholder.svg"
-                  return (
-                    <tr key={car.id} className="hover:bg-stone-50/60 dark:hover:bg-white/5">
-                      <td className="py-4 pl-4">
-                        <div className="flex items-center gap-3">
-                          <div className="relative size-14 shrink-0 overflow-hidden rounded-xl bg-stone-100 dark:bg-white/5 border border-stone-200 dark:border-white/10">
-                            <Image
-                              src={img}
-                              alt={car.name}
-                              fill
-                              sizes="56px"
-                              className="object-cover"
-                            />
-                          </div>
-                          <div>
-                            <span className="font-bold text-slate-900 dark:text-white block sm:text-sm">
-                              {car.name}
-                            </span>
-                            <span className="text-[11px] text-[#C5A059] font-medium">
-                              {car.images?.length || 1} Foto Terunggah
-                            </span>
-                          </div>
+      <div className="rounded-xl border border-border/80 bg-card overflow-hidden shadow-xs">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[300px]">Kendaraan</TableHead>
+              <TableHead>Spesifikasi</TableHead>
+              <TableHead>Lepas Kunci</TableHead>
+              <TableHead>Dengan Supir</TableHead>
+              <TableHead>Status Operasional</TableHead>
+              <TableHead className="text-right">Aksi</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredCars.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} className="h-32 text-center text-muted-foreground text-xs">
+                  Tidak ada armada yang sesuai dengan kriteria filter.
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredCars.map((car) => {
+                const img = car.images?.[0]?.image_url || "/images/main/car-placeholder.svg"
+                return (
+                  <TableRow key={car.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <div className="relative size-12 shrink-0 overflow-hidden rounded-lg border border-border/80 bg-muted">
+                          <Image
+                            src={img}
+                            alt={car.name}
+                            fill
+                            sizes="48px"
+                            className="object-cover"
+                          />
                         </div>
-                      </td>
-
-                      <td className="py-4 font-medium text-slate-600 dark:text-slate-300">
-                        <div>{car.transmission}</div>
-                        <div className="text-[11px] text-slate-400">
-                          {car.seats} Kursi • {car.fuel_type || "Bensin"}
+                        <div className="flex flex-col min-w-0">
+                          <span className="font-semibold text-foreground text-sm truncate">
+                            {car.name}
+                          </span>
+                          <span className="text-[11px] text-muted-foreground">
+                            {car.images?.length || 1} Foto Terdaftar
+                          </span>
                         </div>
-                      </td>
+                      </div>
+                    </TableCell>
 
-                      <td className="py-4 font-bold text-slate-900 dark:text-white">
+                    <TableCell>
+                      <div className="text-xs font-medium text-foreground">
+                        {car.transmission}
+                      </div>
+                      <div className="text-[11px] text-muted-foreground">
+                        {car.seats} Kursi • {car.fuel_type || "Bensin"}
+                      </div>
+                    </TableCell>
+
+                    <TableCell>
+                      <span className="text-xs font-semibold tabular-nums text-foreground">
                         {car.price_self_drive > 0
                           ? `Rp ${car.price_self_drive.toLocaleString("id-ID")}`
                           : "Khusus Driver"}
-                      </td>
+                      </span>
+                    </TableCell>
 
-                      <td className="py-4 font-bold text-[#92400E] dark:text-[#FDE68A]">
+                    <TableCell>
+                      <span className="text-xs font-semibold tabular-nums text-foreground">
                         {car.price_with_driver > 0
                           ? `Rp ${car.price_with_driver.toLocaleString("id-ID")}`
                           : "Hubungi Admin"}
-                      </td>
+                      </span>
+                    </TableCell>
 
-                      <td className="py-4">
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        {getStatusBadge(car.status)}
                         <select
                           disabled={isUpdating === car.id}
                           value={car.status}
+                          aria-label={`Ubah status ${car.name}`}
                           onChange={(e) =>
                             handleStatusChange(
                               car.id,
                               e.target.value as "Tersedia" | "Disewa" | "Perawatan"
                             )
                           }
-                          className={`rounded-xl border px-3 py-1.5 text-xs font-bold outline-none transition-colors ${
-                            car.status === "Tersedia"
-                              ? "border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-400"
-                              : car.status === "Disewa"
-                              ? "border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950/80 dark:text-amber-400"
-                              : "border-rose-300 bg-rose-50 text-rose-800 dark:border-rose-800 dark:bg-rose-950/80 dark:text-rose-400"
-                          }`}
+                          className="h-7 rounded-md border border-border bg-background px-2 text-[11px] font-medium text-foreground outline-none transition-colors hover:bg-muted/50 focus:border-ring focus:ring-1 focus:ring-ring"
                         >
-                          <option value="Tersedia">Tersedia (Ready)</option>
-                          <option value="Disewa">Sedang Disewa</option>
-                          <option value="Perawatan">Dalam Servis</option>
+                          <option value="Tersedia">Tersedia</option>
+                          <option value="Disewa">Disewa</option>
+                          <option value="Perawatan">Perawatan</option>
                         </select>
-                      </td>
+                      </div>
+                    </TableCell>
 
-                      <td className="py-4 pr-4 text-right">
-                        <div className="inline-flex items-center gap-2">
-                          <Link
-                            href={`/admin/cars/${car.id}/edit`}
-                            className="flex size-8 items-center justify-center rounded-lg bg-stone-100 text-slate-700 transition-colors hover:bg-stone-200 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/20"
-                            title="Edit Data Mobil"
-                          >
-                            <Edit3 className="size-4" />
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <Button asChild variant="outline" size="icon-sm">
+                          <Link href={`/admin/cars/${car.id}/edit`} title="Edit Data Mobil">
+                            <Edit3 className="size-3.5" />
                           </Link>
-                          <button
-                            disabled={isUpdating === car.id}
-                            onClick={() => handleDelete(car.id, car.name)}
-                            className="flex size-8 items-center justify-center rounded-lg bg-rose-50 text-rose-600 transition-colors hover:bg-rose-100 dark:bg-rose-950/50 dark:text-rose-400 dark:hover:bg-rose-900/50"
-                            title="Hapus Mobil"
-                          >
-                            <Trash2 className="size-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="icon-sm"
+                          disabled={isUpdating === car.id}
+                          onClick={() => handleDelete(car.id, car.name)}
+                          title="Hapus Mobil"
+                        >
+                          <Trash2 className="size-3.5" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+            )}
+          </TableBody>
+        </Table>
       </div>
     </div>
   )
