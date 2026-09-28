@@ -4,7 +4,13 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { createCarAction, updateCarAction, deleteCarImageAction } from "@/actions/cars"
+import {
+  createCarAction,
+  updateCarAction,
+  deleteCarImageAction,
+  setPrimaryCarImageAction,
+  getCarImagesAction,
+} from "@/actions/cars"
 import { Car, Category, CarImage } from "@/types/database"
 import { compressMultipleImages, formatFileSize } from "@/lib/image-compress"
 import {
@@ -18,6 +24,7 @@ import {
   X,
   FileCheck2,
   Zap,
+  Star,
 } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -51,6 +58,7 @@ export function CarForm({ car, categories }: CarFormProps) {
   const [previewUrls, setPreviewUrls] = useState<string[]>([])
   const [existingImages, setExistingImages] = useState<CarImage[]>(car?.images || [])
   const [deletingImageId, setDeletingImageId] = useState<string | null>(null)
+  const [settingPrimaryId, setSettingPrimaryId] = useState<string | null>(null)
   const [isFeatured, setIsFeatured] = useState<boolean>(car?.is_featured ?? true)
   const [categoryVal, setCategoryVal] = useState<string>(
     car?.category_id || (categories.length > 0 ? categories[0].id : "")
@@ -118,12 +126,37 @@ export function CarForm({ car, categories }: CarFormProps) {
     setDeletingImageId(imageId)
     const res = await deleteCarImageAction(imageId, imageUrl, car.id)
     if (res.success) {
-      setExistingImages((prev) => prev.filter((img) => img.id !== imageId))
-      setSuccessMessage("Foto lama berhasil dihapus dari penyimpanan.")
+      const freshRes = await getCarImagesAction(car.id)
+      if (freshRes.success) {
+        setExistingImages(freshRes.images)
+      } else {
+        setExistingImages((prev) => prev.filter((img) => img.id !== imageId))
+      }
+      setSuccessMessage("Foto lama berhasil dihapus dari sistem.")
     } else {
       setErrorMessage(res.error || "Gagal menghapus foto")
     }
     setDeletingImageId(null)
+  }
+
+  const handleSetPrimary = async (imageId: string) => {
+    if (!car) return
+    setSettingPrimaryId(imageId)
+    setErrorMessage(null)
+    const res = await setPrimaryCarImageAction(imageId, car.id)
+    if (res.success) {
+      setExistingImages((prev) =>
+        prev.map((img) => ({
+          ...img,
+          is_primary: img.id === imageId,
+          order_index: img.id === imageId ? 0 : img.order_index + 1,
+        }))
+      )
+      setSuccessMessage("Foto utama (cover katalog) berhasil diperbarui.")
+    } else {
+      setErrorMessage(res.error || "Gagal mengatur foto utama")
+    }
+    setSettingPrimaryId(null)
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -154,7 +187,12 @@ export function CarForm({ car, categories }: CarFormProps) {
           return
         }
 
-        setSuccessMessage("Perubahan data armada berhasil disimpan ke sistem.")
+        const freshRes = await getCarImagesAction(car.id)
+        if (freshRes.success && freshRes.images.length > 0) {
+          setExistingImages(freshRes.images)
+        }
+
+        setSuccessMessage("Perubahan data armada dan foto berhasil disimpan ke sistem.")
         setSelectedFiles([])
         setPreviewUrls([])
         setCompressionNotice(null)
@@ -455,7 +493,7 @@ export function CarForm({ car, categories }: CarFormProps) {
         <CardHeader className="p-5 border-b border-border/80">
           <CardTitle className="text-sm font-semibold">4. Dokumentasi &amp; Foto Unit</CardTitle>
           <CardDescription className="text-xs">
-            Unggah foto eksterior, kabin depan, dan baris penumpang.
+            Kelola foto mobil. Foto pertama berlabel &apos;Utama&apos; akan menjadi cover utama pada kartu katalog.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-5 flex flex-col gap-4">
@@ -463,13 +501,13 @@ export function CarForm({ car, categories }: CarFormProps) {
             <Zap className="size-4" />
             <AlertTitle>Auto-Compress WebP Aktif</AlertTitle>
             <AlertDescription>
-              Setiap foto yang Anda pilih otomatis dikompresi ke format WebP resolusi tinggi (max 1600px). Menghemat kuota server dan memastikan website terbuka secepat kilat di HP pelanggan.
+              Foto yang Anda pilih otomatis dioptimalkan ke format WebP resolusi tinggi (max 1600px). Menghemat kuota server dan memastikan website terbuka secepat kilat di HP pelanggan.
             </AlertDescription>
           </Alert>
 
           {existingImages.length > 0 && (
             <div>
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-2.5">
                 <span className="text-xs font-medium text-foreground">
                   Foto Tersimpan Saat Ini
                 </span>
@@ -477,32 +515,63 @@ export function CarForm({ car, categories }: CarFormProps) {
                   {existingImages.length} foto
                 </Badge>
               </div>
-              <div className="flex gap-2.5 overflow-x-auto pb-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {existingImages.map((img) => (
                   <div
                     key={img.id}
-                    className="group relative size-20 shrink-0 overflow-hidden rounded-md border border-border/80 bg-muted"
+                    className={`group relative aspect-4/3 rounded-lg overflow-hidden border bg-muted transition-all ${
+                      img.is_primary ? "ring-2 ring-primary border-primary shadow-xs" : "border-border/80"
+                    }`}
                   >
                     <Image
                       src={img.image_url}
                       alt="Foto mobil"
                       fill
-                      sizes="80px"
+                      sizes="180px"
                       className="object-cover"
                     />
-                    <button
-                      type="button"
-                      disabled={deletingImageId === img.id}
-                      onClick={() => handleDeleteExistingImage(img.id, img.image_url)}
-                      className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-background/80 text-foreground shadow-xs transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50 cursor-pointer"
-                      title="Hapus foto ini"
-                    >
-                      {deletingImageId === img.id ? (
-                        <Loader2 className="size-3 animate-spin" />
-                      ) : (
-                        <Trash2 className="size-3" />
+
+                    {img.is_primary && (
+                      <span className="absolute top-1.5 left-1.5 z-10 inline-flex items-center gap-1 rounded bg-primary px-1.5 py-0.5 text-[10px] font-semibold text-primary-foreground shadow-xs">
+                        <Star className="size-2.5 fill-current" />
+                        <span>Cover Utama</span>
+                      </span>
+                    )}
+
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-2">
+                      {!img.is_primary && (
+                        <button
+                          type="button"
+                          disabled={settingPrimaryId === img.id}
+                          onClick={() => handleSetPrimary(img.id)}
+                          className="flex h-7 items-center gap-1 rounded bg-background/90 px-2 text-[10px] font-medium text-foreground shadow-xs transition-colors hover:bg-primary hover:text-primary-foreground disabled:opacity-50 cursor-pointer"
+                          title="Jadikan sebagai foto cover utama di katalog"
+                        >
+                          {settingPrimaryId === img.id ? (
+                            <Loader2 className="size-3 animate-spin" />
+                          ) : (
+                            <>
+                              <Star className="size-3" />
+                              <span>Jadikan Utama</span>
+                            </>
+                          )}
+                        </button>
                       )}
-                    </button>
+
+                      <button
+                        type="button"
+                        disabled={deletingImageId === img.id}
+                        onClick={() => handleDeleteExistingImage(img.id, img.image_url)}
+                        className="flex size-7 items-center justify-center rounded bg-background/90 text-foreground shadow-xs transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50 cursor-pointer"
+                        title="Hapus foto ini"
+                      >
+                        {deletingImageId === img.id ? (
+                          <Loader2 className="size-3 animate-spin" />
+                        ) : (
+                          <Trash2 className="size-3.5" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

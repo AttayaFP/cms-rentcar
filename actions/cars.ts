@@ -78,17 +78,23 @@ export async function createCarAction(formData: FormData) {
           upsert: true,
         })
 
-      if (!uploadError) {
-        const { data: publicUrlData } = supabase.storage
-          .from(STORAGE_BUCKET)
-          .getPublicUrl(filePath)
+      if (uploadError) {
+        return { success: false, error: `Gagal mengunggah foto: ${uploadError.message}` }
+      }
 
-        await supabase.from("car_images").insert({
-          car_id: newCar.id,
-          image_url: publicUrlData.publicUrl,
-          is_primary: i === 0,
-          order_index: i,
-        })
+      const { data: publicUrlData } = supabase.storage
+        .from(STORAGE_BUCKET)
+        .getPublicUrl(filePath)
+
+      const { error: imgInsertError } = await supabase.from("car_images").insert({
+        car_id: newCar.id,
+        image_url: publicUrlData.publicUrl,
+        is_primary: i === 0,
+        order_index: i,
+      })
+
+      if (imgInsertError) {
+        return { success: false, error: `Gagal menyimpan data foto: ${imgInsertError.message}` }
       }
     }
 
@@ -169,17 +175,23 @@ export async function updateCarAction(id: string, formData: FormData) {
             upsert: true,
           })
 
-        if (!uploadError) {
-          const { data: publicUrlData } = supabase.storage
-            .from(STORAGE_BUCKET)
-            .getPublicUrl(filePath)
+        if (uploadError) {
+          return { success: false, error: `Gagal upload gambar: ${uploadError.message}` }
+        }
 
-          await supabase.from("car_images").insert({
-            car_id: id,
-            image_url: publicUrlData.publicUrl,
-            is_primary: startIndex === 0 && i === 0,
-            order_index: startIndex + i,
-          })
+        const { data: publicUrlData } = supabase.storage
+          .from(STORAGE_BUCKET)
+          .getPublicUrl(filePath)
+
+        const { error: imgInsertError } = await supabase.from("car_images").insert({
+          car_id: id,
+          image_url: publicUrlData.publicUrl,
+          is_primary: startIndex === 0 && i === 0,
+          order_index: startIndex + i,
+        })
+
+        if (imgInsertError) {
+          return { success: false, error: `Gagal menyimpan database gambar: ${imgInsertError.message}` }
         }
       }
     }
@@ -192,6 +204,56 @@ export async function updateCarAction(id: string, formData: FormData) {
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Terjadi kesalahan saat memperbarui armada"
     return { success: false, error: msg }
+  }
+}
+
+export async function setPrimaryCarImageAction(imageId: string, carId: string) {
+  try {
+    const supabase = await createAdminClient()
+
+    await supabase
+      .from("car_images")
+      .update({ is_primary: false })
+      .eq("car_id", carId)
+
+    const { error } = await supabase
+      .from("car_images")
+      .update({ is_primary: true, order_index: 0 })
+      .eq("id", imageId)
+
+    if (error) {
+      return { success: false, error: error.message }
+    }
+
+    revalidatePath("/")
+    revalidatePath("/admin")
+    revalidatePath("/admin/cars")
+    revalidatePath(`/admin/cars/${carId}/edit`)
+    return { success: true }
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Gagal mengatur foto utama"
+    return { success: false, error: msg }
+  }
+}
+
+export async function getCarImagesAction(carId: string) {
+  try {
+    const supabase = await createAdminClient()
+
+    const { data, error } = await supabase
+      .from("car_images")
+      .select("*")
+      .eq("car_id", carId)
+      .order("order_index", { ascending: true })
+
+    if (error) {
+      return { success: false, error: error.message, images: [] }
+    }
+
+    return { success: true, images: data || [] }
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Gagal memuat foto"
+    return { success: false, error: msg, images: [] }
   }
 }
 
@@ -214,6 +276,22 @@ export async function deleteCarImageAction(imageId: string, imageUrl: string, ca
 
     if (error) {
       return { success: false, error: error.message }
+    }
+
+    const { data: remainingImages } = await supabase
+      .from("car_images")
+      .select("*")
+      .eq("car_id", carId)
+      .order("order_index", { ascending: true })
+
+    if (remainingImages && remainingImages.length > 0) {
+      const hasPrimary = remainingImages.some((img) => img.is_primary)
+      if (!hasPrimary) {
+        await supabase
+          .from("car_images")
+          .update({ is_primary: true })
+          .eq("id", remainingImages[0].id)
+      }
     }
 
     revalidatePath("/")
