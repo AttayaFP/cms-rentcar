@@ -1,12 +1,20 @@
+import { headers } from "next/headers"
 import { AdminSidebar } from "@/components/admin/admin-sidebar"
 import { AdminHeader } from "@/components/admin/admin-header"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const headerList = await headers()
+  const pathname = headerList.get("x-pathname") || ""
+
+  if (pathname === "/admin/login") {
+    return <>{children}</>
+  }
+
   return (
     <TooltipProvider>
       <div className="flex min-h-screen bg-muted/20 text-foreground">

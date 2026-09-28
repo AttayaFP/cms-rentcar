@@ -2,10 +2,11 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Car, PlusCircle, Settings, ExternalLink, ShieldCheck } from "lucide-react"
+import { LayoutDashboard, Car, PlusCircle, ExternalLink, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { logoutAdminAction } from "@/actions/auth"
 
 export function AdminSidebar() {
   const pathname = usePathname()
@@ -91,21 +92,31 @@ export function AdminSidebar() {
 
       <Separator />
 
-      <div className="flex items-center gap-3 p-4">
-        <Avatar className="size-9 border-border/80">
-          <AvatarFallback className="bg-primary/10 text-primary font-bold">
-            AD
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex flex-1 flex-col min-w-0">
-          <div className="flex items-center gap-1.5">
-            <span className="truncate text-xs font-semibold">Admin Operasional</span>
-            <span className="size-1.5 shrink-0 rounded-full bg-emerald-500" />
+      <div className="flex items-center justify-between gap-3 p-4">
+        <div className="flex items-center gap-3 min-w-0">
+          <Avatar className="size-9 border-border/80">
+            <AvatarFallback className="bg-primary/10 text-primary font-bold">
+              PT
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-1 flex-col min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="truncate text-xs font-semibold">PT Nabil Rental</span>
+              <span className="size-1.5 shrink-0 rounded-full bg-emerald-500" />
+            </div>
+            <span className="truncate text-[10px] text-muted-foreground">
+              ptnabilrentalmobilpadang...
+            </span>
           </div>
-          <span className="truncate text-[10px] text-muted-foreground">
-            Padang, Sumatera Barat
-          </span>
         </div>
+        <button
+          type="button"
+          onClick={() => logoutAdminAction()}
+          className="flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors shrink-0"
+          title="Keluar (Logout)"
+        >
+          <LogOut className="size-3.5" />
+        </button>
       </div>
     </aside>
   )

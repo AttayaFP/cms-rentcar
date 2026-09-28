@@ -2,9 +2,10 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { PlusCircle, ExternalLink, Car, LayoutDashboard } from "lucide-react"
+import { PlusCircle, ExternalLink, Car, LayoutDashboard, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/common/theme-toggle"
+import { logoutAdminAction } from "@/actions/auth"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -58,7 +59,7 @@ export function AdminHeader() {
         </Breadcrumb>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
         <ThemeToggle />
 
         {pathname !== "/admin/cars/new" && (
@@ -69,6 +70,15 @@ export function AdminHeader() {
             </Link>
           </Button>
         )}
+
+        <button
+          type="button"
+          onClick={() => logoutAdminAction()}
+          className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-colors"
+          title="Keluar dari Admin Panel"
+        >
+          <LogOut className="size-3.5" />
+        </button>
 
         <div className="flex items-center gap-1.5 md:hidden">
           <Link
