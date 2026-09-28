@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache"
 import { createAdminClient } from "@/lib/supabase/server"
 
+const STORAGE_BUCKET = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || "nabil-rent"
+
 function generateSlug(text: string): string {
   return text
     .toLowerCase()
@@ -65,7 +67,7 @@ export async function createCarAction(formData: FormData) {
     const filePath = `cars/${newCar.id}/${Date.now()}-${i}.${ext}`
 
     const { error: uploadError } = await supabase.storage
-      .from("nabil-rent")
+      .from(STORAGE_BUCKET)
       .upload(filePath, file, {
         contentType: file.type,
         upsert: true,
@@ -73,7 +75,7 @@ export async function createCarAction(formData: FormData) {
 
     if (!uploadError) {
       const { data: publicUrlData } = supabase.storage
-        .from("nabil-rent")
+        .from(STORAGE_BUCKET)
         .getPublicUrl(filePath)
 
       await supabase.from("car_images").insert({
@@ -146,7 +148,7 @@ export async function updateCarAction(id: string, formData: FormData) {
       const filePath = `cars/${id}/${Date.now()}-${i}.${ext}`
 
       const { error: uploadError } = await supabase.storage
-        .from("nabil-rent")
+        .from(STORAGE_BUCKET)
         .upload(filePath, file, {
           contentType: file.type,
           upsert: true,
@@ -154,7 +156,7 @@ export async function updateCarAction(id: string, formData: FormData) {
 
       if (!uploadError) {
         const { data: publicUrlData } = supabase.storage
-          .from("nabil-rent")
+          .from(STORAGE_BUCKET)
           .getPublicUrl(filePath)
 
         await supabase.from("car_images").insert({
