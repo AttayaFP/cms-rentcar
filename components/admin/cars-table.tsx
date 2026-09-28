@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Car } from "@/types/database"
 import { updateCarStatusAction, deleteCarAction } from "@/actions/cars"
-import { Edit3, Trash2, Search, MoreHorizontal, ExternalLink, Loader2, AlertTriangle } from "lucide-react"
+import { Edit3, Trash2, Search, MoreHorizontal, ExternalLink, Loader2, AlertTriangle, CheckCircle2 } from "lucide-react"
 import {
   Table,
   TableHeader,
@@ -42,6 +42,7 @@ interface CarsTableProps {
 
 export function CarsTable({ initialCars }: CarsTableProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [cars, setCars] = useState<Car[]>(initialCars)
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
@@ -49,6 +50,19 @@ export function CarsTable({ initialCars }: CarsTableProps) {
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [tableError, setTableError] = useState<string | null>(null)
+  const [tableSuccess, setTableSuccess] = useState<string | null>(null)
+
+  useEffect(() => {
+    setCars(initialCars)
+  }, [initialCars])
+
+  useEffect(() => {
+    if (searchParams.get("created") === "1") {
+      setTableSuccess("Unit armada baru berhasil ditambahkan ke katalog!")
+    } else if (searchParams.get("updated") === "1") {
+      setTableSuccess("Data armada berhasil diperbarui!")
+    }
+  }, [searchParams])
 
   const filteredCars = cars.filter((car) => {
     const matchesSearch =
@@ -68,11 +82,13 @@ export function CarsTable({ initialCars }: CarsTableProps) {
   ) => {
     setIsUpdating(id)
     setTableError(null)
+    setTableSuccess(null)
     const res = await updateCarStatusAction(id, newStatus)
     if (res.success) {
       setCars((prev) =>
         prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
       )
+      setTableSuccess(`Status operasional berhasil diubah menjadi: ${newStatus}`)
     } else {
       setTableError(res.error || "Gagal mengubah status unit")
     }
@@ -83,9 +99,11 @@ export function CarsTable({ initialCars }: CarsTableProps) {
     if (!deleteTarget) return
     setIsDeleting(true)
     setTableError(null)
+    setTableSuccess(null)
     const res = await deleteCarAction(deleteTarget.id)
     if (res.success) {
       setCars((prev) => prev.filter((c) => c.id !== deleteTarget.id))
+      setTableSuccess(`Unit armada "${deleteTarget.name}" berhasil dihapus dari sistem.`)
       setDeleteTarget(null)
     } else {
       setTableError(res.error || "Gagal menghapus unit armada")
@@ -126,11 +144,21 @@ export function CarsTable({ initialCars }: CarsTableProps) {
 
   return (
     <div className="flex flex-col gap-4">
+      {tableSuccess && (
+        <Alert variant="success">
+          <CheckCircle2 className="size-4" />
+          <AlertTitle>Berhasil</AlertTitle>
+          <AlertDescription>
+            {tableSuccess}
+          </AlertDescription>
+        </Alert>
+      )}
+
       {tableError && (
         <Alert variant="destructive">
           <AlertTriangle className="size-4" />
-          <AlertTitle className="text-xs font-semibold">Terjadi Kesalahan</AlertTitle>
-          <AlertDescription className="text-xs mt-0.5">
+          <AlertTitle>Terjadi Kesalahan</AlertTitle>
+          <AlertDescription>
             {tableError}
           </AlertDescription>
         </Alert>
@@ -264,7 +292,7 @@ export function CarsTable({ initialCars }: CarsTableProps) {
                               e.target.value as "Tersedia" | "Disewa" | "Perawatan"
                             )
                           }
-                          className="h-7 rounded-md border border-border bg-background px-2 text-[11px] font-medium text-foreground outline-none transition-colors hover:bg-muted/50 focus:border-ring focus:ring-1 focus:ring-ring"
+                          className="h-7 rounded-md border border-border bg-background px-2 text-[11px] font-medium text-foreground outline-none transition-colors hover:bg-muted/50 focus:border-ring focus:ring-1 focus:ring-ring cursor-pointer"
                         >
                           <option value="Tersedia">Tersedia</option>
                           <option value="Disewa">Disewa</option>
@@ -282,7 +310,7 @@ export function CarsTable({ initialCars }: CarsTableProps) {
                         </Button>
 
                         <DropdownMenu>
-                          <DropdownMenuTrigger className="inline-flex size-7 items-center justify-center rounded-lg border border-transparent hover:bg-muted text-muted-foreground hover:text-foreground outline-none">
+                          <DropdownMenuTrigger className="inline-flex size-7 items-center justify-center rounded-lg border border-transparent hover:bg-muted text-muted-foreground hover:text-foreground outline-none cursor-pointer">
                             <MoreHorizontal className="size-3.5" />
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-44">

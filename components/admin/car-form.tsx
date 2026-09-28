@@ -6,7 +6,19 @@ import Image from "next/image"
 import Link from "next/link"
 import { createCarAction, updateCarAction, deleteCarImageAction } from "@/actions/cars"
 import { Car, Category, CarImage } from "@/types/database"
-import { UploadCloud, CheckCircle2, ArrowLeft, Loader2, Sparkles, AlertCircle, Trash2, X } from "lucide-react"
+import { compressMultipleImages, formatFileSize } from "@/lib/image-compress"
+import {
+  UploadCloud,
+  CheckCircle2,
+  ArrowLeft,
+  Loader2,
+  Sparkles,
+  AlertCircle,
+  Trash2,
+  X,
+  FileCheck2,
+  Zap,
+} from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -31,7 +43,10 @@ interface CarFormProps {
 export function CarForm({ car, categories }: CarFormProps) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isCompressing, setIsCompressing] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [compressionNotice, setCompressionNotice] = useState<string | null>(null)
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [previewUrls, setPreviewUrls] = useState<string[]>([])
   const [existingImages, setExistingImages] = useState<CarImage[]>(car?.images || [])
@@ -61,18 +76,41 @@ export function CarForm({ car, categories }: CarFormProps) {
     { value: "Perawatan", label: "Dalam Servis / Perawatan" },
   ]
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files)
-      setSelectedFiles((prev) => [...prev, ...filesArray])
-      const urls = filesArray.map((f) => URL.createObjectURL(f))
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return
+
+    const rawFiles = Array.from(e.target.files)
+    setIsCompressing(true)
+    setErrorMessage(null)
+
+    try {
+      const batch = await compressMultipleImages(rawFiles, 1600, 1600, 0.82)
+      setSelectedFiles((prev) => [...prev, ...batch.files])
+
+      const urls = batch.files.map((f) => URL.createObjectURL(f))
       setPreviewUrls((prev) => [...prev, ...urls])
+
+      const origStr = formatFileSize(batch.totalOriginalSize)
+      const compStr = formatFileSize(batch.totalCompressedSize)
+      setCompressionNotice(
+        `${batch.files.length} foto berhasil dikompresi ke WebP: ${origStr} menjadi ${compStr} (hemat ${batch.totalSavedPercent}%)`
+      )
+    } catch {
+      setSelectedFiles((prev) => [...prev, ...rawFiles])
+      const urls = rawFiles.map((f) => URL.createObjectURL(f))
+      setPreviewUrls((prev) => [...prev, ...urls])
+    } finally {
+      setIsCompressing(false)
+      e.target.value = ""
     }
   }
 
   const handleRemoveSelectedFile = (index: number) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index))
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index))
+    if (selectedFiles.length <= 1) {
+      setCompressionNotice(null)
+    }
   }
 
   const handleDeleteExistingImage = async (imageId: string, imageUrl: string) => {
@@ -81,6 +119,7 @@ export function CarForm({ car, categories }: CarFormProps) {
     const res = await deleteCarImageAction(imageId, imageUrl, car.id)
     if (res.success) {
       setExistingImages((prev) => prev.filter((img) => img.id !== imageId))
+      setSuccessMessage("Foto lama berhasil dihapus dari penyimpanan.")
     } else {
       setErrorMessage(res.error || "Gagal menghapus foto")
     }
@@ -91,6 +130,7 @@ export function CarForm({ car, categories }: CarFormProps) {
     e.preventDefault()
     setIsSubmitting(true)
     setErrorMessage(null)
+    setSuccessMessage(null)
 
     const form = e.currentTarget
     const formData = new FormData(form)
@@ -110,23 +150,35 @@ export function CarForm({ car, categories }: CarFormProps) {
         if (!res.success) {
           setErrorMessage(res.error || "Gagal memperbarui data mobil")
           setIsSubmitting(false)
+          window.scrollTo({ top: 0, behavior: "smooth" })
           return
         }
+
+        setSuccessMessage("Perubahan data armada berhasil disimpan ke sistem.")
+        setSelectedFiles([])
+        setPreviewUrls([])
+        setCompressionNotice(null)
+        setIsSubmitting(false)
+        window.scrollTo({ top: 0, behavior: "smooth" })
+        router.refresh()
       } else {
         const res = await createCarAction(formData)
         if (!res.success) {
           setErrorMessage(res.error || "Gagal menambahkan mobil baru")
           setIsSubmitting(false)
+          window.scrollTo({ top: 0, behavior: "smooth" })
           return
         }
-      }
 
-      router.push("/admin/cars")
-      router.refresh()
+        setSuccessMessage("Armada baru berhasil ditambahkan.")
+        router.push("/admin/cars")
+        router.refresh()
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Terjadi kesalahan sistem"
       setErrorMessage(msg)
       setIsSubmitting(false)
+      window.scrollTo({ top: 0, behavior: "smooth" })
     }
   }
 
@@ -141,11 +193,21 @@ export function CarForm({ car, categories }: CarFormProps) {
         </Button>
       </div>
 
+      {successMessage && (
+        <Alert variant="success">
+          <CheckCircle2 className="size-4" />
+          <AlertTitle>Berhasil Disimpan</AlertTitle>
+          <AlertDescription>
+            {successMessage}
+          </AlertDescription>
+        </Alert>
+      )}
+
       {errorMessage && (
         <Alert variant="destructive">
           <AlertCircle className="size-4" />
-          <AlertTitle className="text-xs font-semibold">Gagal Menyimpan</AlertTitle>
-          <AlertDescription className="text-xs mt-1">
+          <AlertTitle>Gagal Menyimpan</AlertTitle>
+          <AlertDescription>
             {errorMessage}
           </AlertDescription>
         </Alert>
@@ -393,10 +455,18 @@ export function CarForm({ car, categories }: CarFormProps) {
         <CardHeader className="p-5 border-b border-border/80">
           <CardTitle className="text-sm font-semibold">4. Dokumentasi &amp; Foto Unit</CardTitle>
           <CardDescription className="text-xs">
-            Unggah foto eksterior, kabin depan, dan baris penumpang dalam format WebP/JPG/PNG.
+            Unggah foto eksterior, kabin depan, dan baris penumpang.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-5 flex flex-col gap-4">
+          <Alert variant="info">
+            <Zap className="size-4" />
+            <AlertTitle>Auto-Compress WebP Aktif</AlertTitle>
+            <AlertDescription>
+              Setiap foto yang Anda pilih otomatis dikompresi ke format WebP resolusi tinggi (max 1600px). Menghemat kuota server dan memastikan website terbuka secepat kilat di HP pelanggan.
+            </AlertDescription>
+          </Alert>
+
           {existingImages.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -424,7 +494,7 @@ export function CarForm({ car, categories }: CarFormProps) {
                       type="button"
                       disabled={deletingImageId === img.id}
                       onClick={() => handleDeleteExistingImage(img.id, img.image_url)}
-                      className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-background/80 text-foreground shadow-xs transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50"
+                      className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-background/80 text-foreground shadow-xs transition-colors hover:bg-destructive hover:text-destructive-foreground disabled:opacity-50 cursor-pointer"
                       title="Hapus foto ini"
                     >
                       {deletingImageId === img.id ? (
@@ -440,21 +510,45 @@ export function CarForm({ car, categories }: CarFormProps) {
           )}
 
           <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border/90 p-8 text-center bg-muted/20">
-            <UploadCloud className="size-7 text-muted-foreground" />
-            <span className="mt-2.5 text-xs font-semibold text-foreground">
-              Pilih Foto Mobil dari Komputer / HP
-            </span>
-            <span className="text-[11px] text-muted-foreground mt-0.5">
-              Bisa pilih lebih dari satu file secara bersamaan (Multi-Image)
-            </span>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleFileChange}
-              className="mt-3 text-xs text-muted-foreground file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
-            />
+            {isCompressing ? (
+              <div className="flex flex-col items-center gap-2">
+                <Loader2 className="size-7 animate-spin text-primary" />
+                <span className="text-xs font-semibold text-foreground">
+                  Sedang Mengompresi Foto Otomatis...
+                </span>
+                <span className="text-[11px] text-muted-foreground">
+                  Mengubah foto ke format WebP resolusi tinggi
+                </span>
+              </div>
+            ) : (
+              <>
+                <UploadCloud className="size-7 text-muted-foreground" />
+                <span className="mt-2.5 text-xs font-semibold text-foreground">
+                  Pilih Foto Mobil dari Komputer / HP
+                </span>
+                <span className="text-[11px] text-muted-foreground mt-0.5">
+                  Bisa pilih lebih dari satu file sekaligus (Multi-Image)
+                </span>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="mt-3 text-xs text-muted-foreground file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
+                />
+              </>
+            )}
           </div>
+
+          {compressionNotice && (
+            <Alert variant="success">
+              <FileCheck2 className="size-4" />
+              <AlertTitle>Kompresi Selesai</AlertTitle>
+              <AlertDescription>
+                {compressionNotice}
+              </AlertDescription>
+            </Alert>
+          )}
 
           {previewUrls.length > 0 && (
             <div>
@@ -463,7 +557,7 @@ export function CarForm({ car, categories }: CarFormProps) {
                   Foto Baru yang Akan Diunggah
                 </span>
                 <Badge variant="outline" className="text-[10px]">
-                  {previewUrls.length} file dipilih
+                  {previewUrls.length} file WebP siap upload
                 </Badge>
               </div>
               <div className="flex gap-2.5 overflow-x-auto pb-2">
@@ -482,7 +576,7 @@ export function CarForm({ car, categories }: CarFormProps) {
                     <button
                       type="button"
                       onClick={() => handleRemoveSelectedFile(i)}
-                      className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-background/80 text-foreground shadow-xs transition-colors hover:bg-destructive hover:text-destructive-foreground"
+                      className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-background/80 text-foreground shadow-xs transition-colors hover:bg-destructive hover:text-destructive-foreground cursor-pointer"
                       title="Batalkan foto ini"
                     >
                       <X className="size-3" />
@@ -498,12 +592,12 @@ export function CarForm({ car, categories }: CarFormProps) {
       <div className="flex items-center justify-end gap-3 pt-2">
         <Button variant="outline" asChild size="sm">
           <Link href="/admin/cars">
-            Batal
+            Kembali
           </Link>
         </Button>
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isCompressing}
           size="sm"
           className="min-w-[140px]"
         >
