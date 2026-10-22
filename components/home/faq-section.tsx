@@ -4,7 +4,11 @@ import { useState } from "react"
 import Image from "next/image"
 import { HelpCircle, ChevronDown } from "lucide-react"
 
-export function FaqSection() {
+interface FaqSectionProps {
+  whatsappNumber?: string
+}
+
+export function FaqSection({ whatsappNumber = "6281276295523" }: FaqSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   const faqs = [
@@ -125,7 +129,7 @@ export function FaqSection() {
           </div>
 
           <a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281276295523"}?text=Halo%20Nabil%20Rental%20Mobil%20Padang%2C%20saya%20ingin%20bertanya%20seputar%20sewa%20mobil.`}
+            href={`https://wa.me/${whatsappNumber}?text=Halo%20Nabil%20Rental%20Mobil%20Padang%2C%20saya%20ingin%20bertanya%20seputar%20sewa%20mobil.`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex h-12 shrink-0 items-center gap-2 rounded-xl bg-[#25D366] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-[#25D366]/20 transition-all hover:bg-[#1EBE5D] hover:shadow-lg active:scale-98"

@@ -9,6 +9,7 @@ import { Car as CarIcon, ArrowRight } from "lucide-react"
 interface FleetSectionProps {
   initialCars?: Car[]
   categories?: Category[]
+  whatsappNumber?: string
 }
 
 const DEFAULT_CARS: Car[] = [
@@ -140,7 +141,10 @@ const DEFAULT_CARS: Car[] = [
   }
 ]
 
-export function FleetSection({ initialCars }: FleetSectionProps) {
+export function FleetSection({
+  initialCars,
+  whatsappNumber = "6281276295523",
+}: FleetSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
 
   const cars = initialCars && initialCars.length > 0 ? initialCars : DEFAULT_CARS
@@ -216,7 +220,7 @@ export function FleetSection({ initialCars }: FleetSectionProps) {
               transition={{ duration: 0.35, delay: index * 0.05 }}
               className="w-[85vw] max-w-[340px] shrink-0 snap-center sm:w-auto sm:shrink sm:snap-align-none"
             >
-              <CarCard car={car} />
+              <CarCard car={car} whatsappNumber={whatsappNumber} />
             </motion.div>
           ))}
         </div>
